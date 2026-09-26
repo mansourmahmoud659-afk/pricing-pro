@@ -6,16 +6,90 @@
     <title>Pricing Pro 🧮 - محترف التسعير</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-white min-h-screen p-4 flex flex-col items-center justify-center">
-    <div class="max-w-md w-full bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-700 text-center">
-        <h1 class="text-2xl font-bold mb-2">Pricing Pro 🧮</h1>
-        <p class="text-slate-400 text-sm mb-6">أداة تحليل الأسعار والأرباح والتكاليف للمتاجر الإلكترونية</p>
-        
-        <div id="app" class="space-y-4">
-            <p class="text-emerald-400 font-semibold">جاري تحميل النظام والاتصال بالقاعدة...</p>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 flex flex-col items-center justify-center font-sans">
+    <div class="max-w-md w-full bg-slate-800 p-6 rounded-2xl shadow-2xl border border-slate-700">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-extrabold text-emerald-400 mb-1">Pricing Pro 🧮</h1>
+            <p class="text-slate-400 text-sm">حاسبة التسعير والأرباح للمتاجر الإلكترونية</p>
+        </div>
+
+        <form id="calc-form" class="space-y-4">
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">تلفة المنتج الأساسية (EGP)</label>
+                <input type="number" id="cost" placeholder="مثال: 150" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">تكلفة الشحن والتغليف</label>
+                    <input type="number" id="shipping" placeholder="مثال: 40" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">مصاريف الإعلانات/القطعة</label>
+
+                    <input type="number" id="ads" placeholder="مثال: 30" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">نسبة هامش الربح المستهدف (%)</label>
+                <input type="number" id="margin" placeholder="مثال: 35" value="30" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <button type="button" id="calculate-btn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-lg transition duration-200">
+                احسب سعر البيع والأرباح 🚀
+            </button>
+        </form>
+
+        <div id="results" class="mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 hidden space-y-3 text-sm">
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+                <span class="text-slate-400">إجمالي التكلفة:</span>
+                <span id="total-cost" class="font-semibold text-rose-400">0 EGP</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+                <span class="text-slate-400">سعر البيع المقترح:</span>
+                <span id="selling-price" class="font-bold text-emerald-400 text-lg">0 EGP</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-400">صافي الربح المتوقع:</span>
+                <span id="net-profit" class="font-semibold text-sky-400">0 EGP</span>
+            </div>
         </div>
     </div>
 
-    <script type="module" src="./supabase.js"></script>
+    <script type="module">
+        import { supabase } from './supabase.js';
+
+        document.getElementById('calculate-btn').addEventListener('click', async () => {
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const ads = parseFloat(document.getElementById('ads').value) || 0;
+            const marginPercent = parseFloat(document.getElementById('margin').value) || 0;
+
+            if (cost <= 0) {
+                alert('يرجى إدخال تكلفة المنتج الأساسية');
+                return;
+            }
+
+            const totalCost = cost + shipping + ads;
+            const sellingPrice = totalCost / (1 - (marginPercent / 100));
+            const netProfit = sellingPrice - totalCost;
+
+            document.getElementById('total-cost').innerText = totalCost.toFixed(2) + ' EGP';
+            document.getElementById('selling-price').innerText = sellingPrice.toFixed(2) + ' EGP';
+            document.getElementById('net-profit').innerText = netProfit.toFixed(2) + ' EGP';
+
+            document.getElementById('results').classList.remove('hidden');
+
+            // حفظ عملية الحساب في Supabase
+            try {
+                await supabase.from('calculations').insert([
+                    { item_cost: cost, shipping_cost: shipping, ad_cost: ads, margin_percent: marginPercent, selling_price: sellingPrice, profit: netProfit }
+                ]);
+            } catch (err) {
+                console.log('ملاحظة: لم يتم الحفظ بقاعدة البيانات', err);
+            }
+        });
+    </script>
 </body>
 </html>
