@@ -3,228 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محترف التسعير Pro 🧮 - Pricing Pro</title>
+    <title>محترف التسعير Pro 🧮 - سعر البيع والربح الحقيقي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col pb-10">
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-12">
 
-    <!-- Header / Navbar -->
-    <header class="w-full glass-panel sticky top-0 z-50 border-b border-slate-800 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="bg-emerald-500/10 p-2 rounded-xl border border-emerald-500/20">
+    <!-- Header Navigation -->
+    <header class="w-full bg-slate-900/80 border-b border-slate-800 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
                 <span class="text-2xl">🧮</span>
+                <div>
+                    <h1 class="text-base font-bold text-emerald-400">محترف التسعير Pro</h1>
+                    <p class="text-[10px] text-slate-400">Master Template v1.0</p>
+                </div>
             </div>
-            <div>
-                <h1 class="text-xl font-black text-emerald-400 leading-tight">محترف التسعير Pro</h1>
-                <p class="text-xs text-slate-400">E-commerce Pricing & Profit Intelligence</p>
+            <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1 rounded-full font-bold">
+                نسخة تجريبية
             </div>
-        </div>
-        <div id="license-status-badge" class="bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs px-3 py-1.5 rounded-full font-bold">
-            جاري التحقق من الترخيص...
         </div>
     </header>
 
-    <main class="max-w-6xl w-full mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-4 mt-6 space-y-6">
 
-        <!-- Left Column: Input Panel -->
-        <div class="lg:col-span-7 space-y-6">
-
-            <!-- License Activation Card -->
-            <div id="license-card" class="glass-panel p-5 rounded-2xl border-emerald-500/30">
-                <h3 class="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
-                    🔑 تفعيل الترخيص وربط الجهاز
-                </h3>
-                <div class="flex gap-2">
-                    <input type="text" id="license-key" placeholder="أدخل كود الترخيص الخاص بك" class="flex-1 bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-emerald-500 outline-none">
-                    <button id="activate-btn" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition">
-                        تفعيل
-                    </button>
-                </div>
-                <p id="license-msg" class="text-xs mt-2 text-slate-400"></p>
+        <!-- Calculator Title & Description -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="p-2 bg-emerald-500/10 rounded-xl text-emerald-400 text-xl font-bold">💰</span>
+                <h2 class="text-xl font-extrabold text-white">حاسبة سعر البيع والربح الحقيقي</h2>
             </div>
-
-            <!-- Pricing Calculator Form -->
-            <div class="glass-panel p-6 rounded-2xl space-y-5">
-                <h2 class="text-lg font-bold text-emerald-400 border-b border-slate-800 pb-3">بيانات التكلفة والمنتج</h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">تكلفة شراء/تصنيع القطعة (EGP)</label>
-                        <input type="number" id="cogs" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">تكلفة التغليف والطباعة</label>
-                        <input type="number" id="packaging" placeholder="0.00" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">متوسط مصاريف الإعلانات/القطعة (CPA)</label>
-                        <input type="number" id="cpa" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">مصاريف الشحن والمناقلة</label>
-                        <input type="number" id="shipping" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">نسبة مرتجعات الشحن التقديرية (%)</label>
-                        <input type="number" id="returns" placeholder="مثال: 10" value="5" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">هامش الربح الصافي المستهدف (%)</label>
-                        <input type="number" id="target-margin" placeholder="مثال: 30" value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                    </div>
-                </div>
-
-                <button id="calc-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl transition text-base shadow-lg shadow-emerald-500/20">
-                    حساب التسعير وهيكلة الأرباح 🚀
-                </button>
-            </div>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                اعرف تكلفة طلبك الحقيقية شاملاً التصنيع، الشحن، الإعلانات والمرتجعات لمعرفة سعر البيع وهامش الربح الصافي بدقة.
+            </p>
         </div>
 
-        <!-- Right Column: Results & Analytics -->
-        <div class="lg:col-span-5 space-y-6">
-            <div class="glass-panel p-6 rounded-2xl space-y-4">
-                <h3 class="text-sm font-extrabold text-slate-400 uppercase tracking-wider">نتائج التحليل الحسابي</h3>
-                
-                <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl text-center">
-                    <span class="text-xs text-slate-400 block mb-1">سعر البيع الموصى به للمستهلك</span>
-                    <span id="res-price" class="text-3xl font-black text-emerald-400">0.00 EGP</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3 text-sm">
-                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400 block">إجمالي التكلفة/قطع:</span>
-                        <span id="res-cost" class="font-bold text-rose-400">0.00 EGP</span>
+        <!-- Form / Inputs -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-5 shadow-xl">
+            
+            <!-- Section 1: التكاليف المباشرة -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                    <span>📦</span> بيانات تكلفة المنتج والشحن
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">تكلفة شراء / تصنيع القطعة (ج.م)</label>
+                        <input type="number" id="cost" placeholder="مثال: 150" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
                     </div>
-                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-slate-400 block">صافي الربح المتوقع:</span>
-                        <span id="res-profit" class="font-bold text-sky-400">0.00 EGP</span>
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">مصاريف التغليف والطباعة (ج.م)</label>
+                        <input type="number" id="packaging" placeholder="مثال: 10" value="0" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
                     </div>
                 </div>
+            </div>
 
-                <!-- Chart -->
-                <div class="pt-4 border-t border-slate-800">
-                    <h4 class="text-xs font-bold text-slate-400 mb-3 text-center">توزيع هيكل التكاليف والأرباح</h4>
-                    <div class="w-full max-w-[220px] mx-auto">
-                        <canvas id="profitChart"></canvas>
+            <hr class="border-slate-800">
+
+            <!-- Section 2: الإعلانات والمرتجعات -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                    <span>📢</span> مصاريف التسويق والارتجاع
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">تكلفة الإعلان للطلب CPA (ج.م)</label>
+                        <input type="number" id="cpa" placeholder="مثال: 50" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
                     </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">سعر الشحن للعميل (ج.م)</label>
+                        <input type="number" id="shipping" placeholder="مثال: 40" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 font-semibold mb-1">نسبة المرتجعات المتوقعة (%)</label>
+                        <input type="number" id="return-rate" placeholder="مثال: 10" value="5" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-800">
+
+            <!-- Section 3: هامش الربح المطلوبة -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                    <span>🎯</span> المستهدفات
+                </h3>
+                <div>
+                    <label class="block text-xs text-slate-300 font-semibold mb-1">هامش الربح الصافي المستهدف (%)</label>
+                    <input type="number" id="target-margin" placeholder="مثال: 30" value="30" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button id="calc-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-base shadow-lg shadow-emerald-500/20 transition active:scale-[0.99]">
+                🧮 احسب النتيجة
+            </button>
+        </div>
+
+        <!-- Output / Results Section (Hidden by default) -->
+        <div id="result-card" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-5 shadow-2xl">
+            <h3 class="text-sm font-extrabold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                <span>📊</span> النتيجة
+            </h3>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[11px] text-slate-400 block mb-1">التكلفة الحقيقية</span>
+                    <span id="res-cost" class="text-base font-bold text-rose-400">0 ج.م</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[11px] text-slate-400 block mb-1">سعر البيع المقترح</span>
+                    <span id="res-price" class="text-lg font-black text-emerald-400">0 ج.م</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[11px] text-slate-400 block mb-1">صافي الربح</span>
+                    <span id="res-profit" class="text-base font-bold text-sky-400">0 ج.م</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[11px] text-slate-400 block mb-1">هامش الربح الفعلية</span>
+                    <span id="res-margin" class="text-base font-bold text-amber-400">0%</span>
+                </div>
+            </div>
+
+            <!-- Insight / Explanation Section -->
+            <div class="bg-slate-950/60 rounded-xl p-4 border border-slate-800/80 space-y-2">
+                <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                    <span>💡</span> قراءة النتيجة
+                </h4>
+                <p id="res-explanation" class="text-xs text-slate-300 leading-relaxed">
+                    جاري التقييم...
+                </p>
+            </div>
+
+            <!-- Alert Box -->
+            <div id="alert-box" class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3.5 flex items-start gap-3">
+                <span class="text-amber-400 text-base">⚠️</span>
+                <div>
+                    <h5 class="text-xs font-bold text-amber-400">تنبيه هام</h5>
+                    <p id="alert-text" class="text-[11px] text-amber-200/80 mt-0.5">
+                        تحقق من دقة التكاليف المدخلة.
+                    </p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <script type="module">
-        import { supabase } from './supabase.js';
-
-        let chartInstance = null;
-
-        function initChart(cogs, ads, ship, profit) {
-            const ctx = document.getElementById('profitChart').getContext('2d');
-            if (chartInstance) chartInstance.destroy();
-
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['البضاعة والتغليف', 'الإعلانات', 'الشحن والارتجاع', 'صافي الربح'],
-                    datasets: [{
-                        data: [cogs, ads, ship, profit],
-                        backgroundColor: ['#f43f5e', '#a855f7', '#eab308', '#10b981'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    plugins: { legend: { display: false } },
-                    cutout: '70%'
-                }
-            });
-        }
-
-        document.getElementById('calc-btn').addEventListener('click', async () => {
-            const cogs = parseFloat(document.getElementById('cogs').value) || 0;
-            const pkg = parseFloat(document.getElementById('packaging').value) || 0;
+    <script>
+        document.getElementById('calc-btn').addEventListener('click', () => {
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const packaging = parseFloat(document.getElementById('packaging').value) || 0;
             const cpa = parseFloat(document.getElementById('cpa').value) || 0;
-            const ship = parseFloat(document.getElementById('shipping').value) || 0;
-            const retRate = (parseFloat(document.getElementById('returns').value) || 0) / 100;
-            const targetMargin = (parseFloat(document.getElementById('target-margin').value) || 0) / 100;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const returnRate = (parseFloat(document.getElementById('return-rate').value) || 0) / 100;
+            const targetMarginPercent = parseFloat(document.getElementById('target-margin').value) || 0;
 
-            if (cogs <= 0) {
-                alert('يرجى إدخال تكلفة شراء/تصنيع القطعة');
+            if (cost <= 0) {
+                alert('يرجى إدخال تكلفة شراء/تصنيع القطعة الأساسية.');
                 return;
             }
 
-            const baseCost = cogs + pkg + cpa + ship;
-            const returnCostFactor = ship * retRate;
-            const totalCost = baseCost + returnCostFactor;
+            // Calculations
+            const returnCostPerOrder = shipping * returnRate;
+            const realCost = cost + packaging + cpa + shipping + returnCostPerOrder;
+            
+            const targetMarginDecimal = targetMarginPercent / 100;
+            const sellingPrice = targetMarginDecimal < 1 ? (realCost / (1 - targetMarginDecimal)) : (realCost * 1.5);
+            const netProfit = sellingPrice - realCost;
+            const actualMargin = (netProfit / sellingPrice) * 100;
 
-            const sellingPrice = targetMargin < 1 ? (totalCost / (1 - targetMargin)) : (totalCost * 1.5);
-            const netProfit = sellingPrice - totalCost;
+            // Render Output
+            document.getElementById('res-cost').innerText = realCost.toFixed(2) + ' ج.م';
+            document.getElementById('res-price').innerText = Math.ceil(sellingPrice) + ' ج.م';
+            document.getElementById('res-profit').innerText = netProfit.toFixed(2) + ' ج.م';
+            document.getElementById('res-margin').innerText = actualMargin.toFixed(1) + '%';
 
-            document.getElementById('res-price').innerText = sellingPrice.toFixed(2) + ' EGP';
-            document.getElementById('res-cost').innerText = totalCost.toFixed(2) + ' EGP';
-            document.getElementById('res-profit').innerText = netProfit.toFixed(2) + ' EGP';
+            // Explanations & Insight
+            document.getElementById('res-explanation').innerText = 
+                `لكي تحقق صافي ربح قدره ${netProfit.toFixed(0)} ج.م لكل قطعة، يجب بيع المنتج بسعر ${Math.ceil(sellingPrice)} ج.م. تم تغطية تكلفة الإعلانات (${cpa} ج.م) وخسائر المرتجعات المتوقعة (${returnCostPerOrder.toFixed(1)} ج.م).`;
 
-            initChart(cogs + pkg, cpa, ship + returnCostFactor, netProfit);
-
-            try {
-                await supabase.from('calculations').insert([{
-                    item_cost: cogs,
-                    shipping_cost: ship,
-                    ad_cost: cpa,
-                    margin_percent: targetMargin * 100,
-                    selling_price: sellingPrice,
-                    profit: netProfit
-                }]);
-            } catch (err) {
-                console.log('Saved locally / Supabase sync log:', err);
+            // Alert Message
+            if (returnRate > 0.15) {
+                document.getElementById('alert-text').innerText = `نسبة المرتجعات مرتفعة (${(returnRate*100)}%). هذا يحمل كل قطعة ناجحة حوالي ${returnCostPerOrder.toFixed(1)} ج.م خسارة شحن غير مستردة.`;
+            } else {
+                document.getElementById('alert-text').innerText = `تذكر أن أي زيادة في تكلفة إعلانات الـ CPA ستقوم بتأكيل هامش الربح مباشرة.`;
             }
+
+            // Show Results
+            document.getElementById('result-card').classList.remove('hidden');
         });
-
-        // License Validation Logic
-        document.getElementById('activate-btn').addEventListener('click', async () => {
-            const key = document.getElementById('license-key').value.trim();
-            const msgEl = document.getElementById('license-msg');
-            const badge = document.getElementById('license-status-badge');
-
-            if (!key) {
-                msgEl.innerText = 'يرجى إدخال كود الترخيص';
-                msgEl.className = 'text-xs mt-2 text-rose-400';
-                return;
-            }
-
-            try {
-                const { data, error } = await supabase.from('licenses').select('*').eq('license_key', key).single();
-                if (error || !data) {
-                    msgEl.innerText = 'كود الترخيص غير صحيح أو غير مفعّل';
-                    msgEl.className = 'text-xs mt-2 text-rose-400';
-                } else {
-                    msgEl.innerText = 'تم التفعيل بنجاح! جهازك مسجل الآن.';
-                    msgEl.className = 'text-xs mt-2 text-emerald-400';
-                    badge.innerText = 'ترخيص مفعّل Pro 🟢';
-                    badge.className = 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs px-3 py-1.5 rounded-full font-bold';
-                }
-            } catch (e) {
-                msgEl.innerText = 'تعذر الاتصال بسيرفر التراخيص';
-                msgEl.className = 'text-xs mt-2 text-amber-400';
-            }
-        });
-
-        initChart(150, 50, 40, 80);
     </script>
 </body>
 </html>
