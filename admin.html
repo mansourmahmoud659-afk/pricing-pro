@@ -3,162 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة أدمن محترف التسعير Pro - توليد الأكواد</title>
+
+    <title>محترف التسعير Pro - لوحة الأكواد</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #e2e8f0; }
-        .glass-card { background-color: #111827; border: 1px solid #1f293d; border-radius: 1rem; }
-        .input-box { background-color: #090d16; border: 1px solid #1e293b; color: #ffffff; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b0f19;
+            color: #e2e8f0;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+        }
+
+        input {
+            background: #090d16;
+            border: 1px solid #263244;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="p-6 max-w-4xl mx-auto space-y-6">
 
-    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-        <div>
-            <h1 class="text-xl font-bold text-white">🔑 لوحة تحكم الأكواد - Admin Panel</h1>
-            <p class="text-xs text-slate-400">إدارة وتوليد أكواد التفعيل لتطبيق محترف التسعير Pro</p>
-        </div>
-        <span class="text-xs px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full font-bold">متصل بـ Supabase</span>
+<body style="padding:20px; max-width:900px; margin:auto;">
+
+    <div class="card" style="padding:20px; margin-bottom:20px;">
+        <h1 style="font-size:22px; font-weight:bold;">
+            🔑 لوحة تحكم أكواد محترف التسعير Pro
+        </h1>
+
+        <p style="color:#94a3b8; margin-top:5px;">
+            إنشاء وإدارة أكواد تفعيل الأداة
+        </p>
     </div>
 
-    <!-- توليد كود جديد -->
-    <div class="glass-card p-6 space-y-4">
-        <h3 class="text-base font-bold text-white">إنشاء كود تفعيل جديد</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label class="text-xs text-slate-400 block mb-1">اسم العميل (اختياري)</label>
-                <input type="text" id="clientName" placeholder="مثال: متجر الأمل" class="w-full input-box px-3 py-2 rounded-xl text-sm">
-            </div>
-            <div>
-                <label class="text-xs text-slate-400 block mb-1">الكود المخصص (أو اتركه فارغاً لتوليد كود تلقائي)</label>
-                <input type="text" id="customCode" placeholder="مثال: PRO-9988-X" class="w-full input-box px-3 py-2 rounded-xl text-sm uppercase">
-            </div>
-        </div>
-        <button onclick="alert('الزر شغال')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition">
+
+    <!-- إنشاء كود -->
+
+    <div class="card" style="padding:20px; margin-bottom:20px;">
+
+        <h2 style="font-size:18px; font-weight:bold; margin-bottom:15px;">
+            ✨ إنشاء كود تفعيل
+        </h2>
+
+        <label>
+            الكود المخصص
+        </label>
+
+        <input
+            id="customCode"
+            type="text"
+            placeholder="مثال: PRO-6654-X"
+            style="margin-top:8px; margin-bottom:15px;"
+        >
+
+        <button
+            id="createButton"
+            onclick="generateCode()"
+            style="
+                background:#10b981;
+                color:#06120d;
+                font-weight:bold;
+                padding:12px 20px;
+                border-radius:10px;
+                border:0;
+                width:100%;
+            "
+        >
             ✨ إنشاء وإضافة الكود
         </button>
+
     </div>
 
-    <!-- جدول الأكواد -->
-    <div class="glass-card p-6 space-y-4">
-        <div class="flex justify-between items-center">
-            <h3 class="text-base font-bold text-white">قائمة الأكواد المتاحة والمستخدمة</h3>
-            <button onclick="loadCodes()" class="text-xs bg-slate-800 px-3 py-1.5 rounded-lg text-slate-300 hover:bg-slate-700">تحديث القائمة 🔄</button>
+
+    <!-- النتيجة -->
+
+    <div
+        id="result"
+        class="card"
+        style="
+            display:none;
+            padding:20px;
+            margin-bottom:20px;
+            text-align:center;
+        "
+    ></div>
+
+
+    <!-- الأكواد -->
+
+    <div class="card" style="padding:20px;">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            margin-bottom:15px;
+        ">
+
+            <h2 style="font-size:18px; font-weight:bold;">
+                📋 الأكواد
+            </h2>
+
+            <button
+                onclick="loadCodes()"
+                style="
+                    background:#1e293b;
+                    color:white;
+                    border:0;
+                    padding:8px 12px;
+                    border-radius:8px;
+                "
+            >
+                🔄 تحديث
+            </button>
+
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-right text-xs">
-                <thead>
-                    <tr class="border-b border-slate-800 text-slate-400">
-                        <th class="py-2 px-3">الكود</th>
-                        <th class="py-2 px-3">اسم العميل</th>
-                        <th class="py-2 px-3">الحالة</th>
-                        <th class="py-2 px-3">تاريخ الإنشاء</th>
-                        <th class="py-2 px-3">إجراءات</th>
-                    </tr>
-                </thead>
-                <tbody id="codesTable">
-                    <tr><td colspan="5" class="py-4 text-center text-slate-500">جاري تحميل الأكواد...</td></tr>
-                </tbody>
-            </table>
+
+        <div id="codesTable">
+            جاري تحميل الأكواد...
         </div>
+
     </div>
 
-    <script>
-        alert("JavaScript شغال");
-        const SUPABASE_URL = "https://wcmiyrroskstgzwbvsor.supabase.co";
-        const SUPABASE_KEY = "Sb_publishable_Hia5ResownbSTejq-DcWkA_HbZTcsZl";
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
 
-    async function generateCode() { 
-        alert("الزر شغال");
+const SUPABASE_URL =
+"https://wcmiyrroskstgzwbvsor.supabase.co";
+
+const SUPABASE_KEY =
+"Sb_publishable_Hia5ResownbSTejq-DcWkA_HbZTcsZl";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+// ==============================
+// إنشاء كود
+// ==============================
+
+async function generateCode() {
+
+    const button =
+        document.getElementById("createButton");
+
+    const result =
+        document.getElementById("result");
+
+    const input =
+        document.getElementById("customCode");
+
+
+    let code =
+        input.value.trim().toUpperCase();
+
+
+    // لو المستخدم سايب الخانة فاضية
+    // يتم إنشاء كود تلقائي
+
+    if (!code) {
+
+        code =
+            "PRO-" +
+            Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+    }
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "⏳ جاري إنشاء الكود...";
+
+
     try {
-        const clientName =
-            document.getElementById('clientName').value.trim() || 'عميل جديد';
 
-        let code =
-            document.getElementById('customCode').value.trim().toUpperCase();
+        const { data, error } =
 
-        if (!code) {
-            code = 'PRO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-        }
+            await supabaseClient
 
-        alert('جاري إنشاء الكود: ' + code);
+            .from("activation_codes")
 
-        const { data, error } = await supabase
-            .from('activation_codes')
-            .insert([
-                {
-                    code: code,
-                    is_used: false
-                }
-            ])
+            .insert({
+
+                code: code,
+
+                is_used: false
+
+            })
+
             .select();
 
+
         if (error) {
-            alert('❌ حصل خطأ من Supabase:\n' + error.message);
+
+            result.style.display = "block";
+
+            result.innerHTML =
+
+                `<div style="color:#f87171;font-weight:bold;">
+                    ❌ لم يتم إنشاء الكود
+                </div>
+
+                <div style="margin-top:8px;color:#94a3b8;">
+                    ${error.message}
+                </div>`;
+
             return;
+
         }
 
-        alert('✅ تم إنشاء الكود بنجاح:\n\n' + code);
 
-        document.getElementById('clientName').value = '';
-        document.getElementById('customCode').value = '';
+        result.style.display = "block";
+
+        result.innerHTML =
+
+            `<div style="color:#34d399;font-weight:bold;font-size:18px;">
+                ✅ تم إنشاء الكود بنجاح
+            </div>
+
+            <div
+                style="
+                    margin-top:15px;
+                    font-size:25px;
+                    font-weight:bold;
+                    color:#34d399;
+                    letter-spacing:2px;
+                "
+            >
+                ${code}
+            </div>
+
+            <button
+                onclick="copyCode('${code}')"
+                style="
+                    margin-top:15px;
+                    background:#2563eb;
+                    color:white;
+                    border:0;
+                    padding:10px 18px;
+                    border-radius:9px;
+                    font-weight:bold;
+                "
+            >
+                📋 نسخ الكود
+            </button>`;
+
+
+        input.value = "";
+
 
         loadCodes();
+
 
     } catch (error) {
-        alert('❌ خطأ في الصفحة:\n' + error.message);
+
+        result.style.display = "block";
+
+        result.innerHTML =
+
+            `<div style="color:#f87171;">
+                ❌ حصل خطأ:
+                ${error.message}
+            </div>`;
+
     }
-}        
 
-        async function loadCodes() {
-            const tbody = document.getElementById('codesTable');
-            tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">جاري التحميل...</td></tr>';
 
-            const { data, error } = await supabase
-                .from('activation_codes')
-                .select('*')
-                .order('created_at', { ascending: false });
+    button.disabled = false;
 
-            if (error) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-400">خطأ في جلب البيانات: ${error.message}</td></tr>`;
-                return;
-            }
+    button.innerText =
+        "✨ إنشاء وإضافة الكود";
 
-            if (!data || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">لا توجد أكواد أنشئت بعد.</td></tr>';
-                return;
-            }
+}
 
-            tbody.innerHTML = data.map(item => `
-                <tr class="border-b border-slate-800/50 hover:bg-slate-800/30">
-                    <td class="py-3 px-3 font-mono font-bold text-emerald-400 select-all">${item.code}</td>
-                    <td class="py-3 px-3 text-slate-300">${item.client_name || '-'}</td>
-                    <td class="py-3 px-3">
-                        ${item.is_used 
-                            ? '<span class="px-2 py-0.5 text-[10px] rounded bg-red-500/10 text-red-400 border border-red-500/20">مُستخْدَم</span>' 
-                            : '<span class="px-2 py-0.5 text-[10px] rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">متاح</span>'}
-                    </td>
-                    <td class="py-3 px-3 text-slate-400 text-[10px]">${new Date(item.created_at).toLocaleDateString('ar-EG')}</td>
-                    <td class="py-3 px-3">
-                        <button onclick="deleteCode('${item.id}')" class="text-red-400 hover:text-red-300">حذف 🗑️</button>
-                    </td>
-                </tr>
-            `).join('');
+
+
+// ==============================
+// نسخ الكود
+// ==============================
+
+function copyCode(code) {
+
+    navigator.clipboard
+        .writeText(code)
+
+        .then(() => {
+
+            alert("✅ تم نسخ الكود");
+
+        })
+
+        .catch(() => {
+
+            alert("الكود:\n" + code);
+
+        });
+
+}
+
+
+
+// ==============================
+// تحميل الأكواد
+// ==============================
+
+async function loadCodes() {
+
+    const container =
+        document.getElementById("codesTable");
+
+
+    container.innerHTML =
+        "⏳ جاري تحميل الأكواد...";
+
+
+    try {
+
+        const { data, error } =
+
+            await supabaseClient
+
+            .from("activation_codes")
+
+            .select("id, code, is_used");
+
+
+        if (error) {
+
+            container.innerHTML =
+
+                `<div style="color:#f87171;">
+                    ❌ خطأ في تحميل الأكواد
+                    <br><br>
+                    ${error.message}
+                </div>`;
+
+            return;
+
         }
 
-        async function deleteCode(id) {
-            if (confirm('هل أنت تأكد من حذف هذا الكود؟')) {
-                await supabase.from('activation_codes').delete().eq('id', id);
-                loadCodes();
-            }
+
+        if (!data || data.length === 0) {
+
+            container.innerHTML =
+
+                `<div style="color:#94a3b8;text-align:center;padding:20px;">
+                    لا توجد أكواد حتى الآن.
+                </div>`;
+
+            return;
+
         }
 
-        loadCodes();
-    </script>
+
+        let html = "";
+
+
+        data.forEach(item => {
+
+
+            const status =
+
+                item.is_used
+
+                ? `<span style="color:#f87171;">
+                    🔴 مستخدم
+                   </span>`
+
+                : `<span style="color:#34d399;">
+                    🟢 متاح
+                   </span>`;
+
+
+            html += `
+
+                <div
+                    style="
+                        background:#090d16;
+                        border:1px solid #1f2937;
+                        padding:15px;
+                        border-radius:12px;
+                        margin-bottom:10px;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-size:20px;
+                            font-weight:bold;
+                            color:#34d399;
+                            letter-spacing:1px;
+                        "
+                    >
+                        ${item.code}
+                    </div>
+
+
+                    <div style="margin-top:8px;">
+                        الحالة:
+                        ${status}
+                    </div>
+
+
+                    <div style="margin-top:12px;">
+
+                        <button
+                            onclick="copyCode('${item.code}')"
+                            style="
+                                background:#2563eb;
+                                color:white;
+                                border:0;
+                                padding:7px 12px;
+                                border-radius:7px;
+                                margin-left:5px;
+                            "
+                        >
+                            📋 نسخ
+                        </button>
+
+
+                        <button
+                            onclick="deleteCode('${item.id}')"
+                            style="
+                                background:#dc2626;
+                                color:white;
+                                border:0;
+                                padding:7px 12px;
+                                border-radius:7px;
+                            "
+                        >
+                            🗑️ حذف
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        container.innerHTML = html;
+
+
+    } catch (error) {
+
+        container.innerHTML =
+
+            `<div style="color:#f87171;">
+                ❌ ${error.message}
+            </div>`;
+
+    }
+
+}
+
+
+
+// ==============================
+// حذف كود
+// ==============================
+
+async function deleteCode(id) {
+
+    const confirmDelete =
+        confirm("هل أنت متأكد من حذف هذا الكود؟");
+
+
+    if (!confirmDelete) return;
+
+
+    const { error } =
+
+        await supabaseClient
+
+        .from("activation_codes")
+
+        .delete()
+
+        .eq("id", id);
+
+
+    if (error) {
+
+        alert(
+            "❌ لم يتم حذف الكود:\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    alert("✅ تم حذف الكود");
+
+
+    loadCodes();
+
+}
+
+
+
+// تشغيل تحميل الأكواد عند فتح الصفحة
+
+loadCodes();
+
+</script>
+
 </body>
 </html>
