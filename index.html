@@ -1,280 +1,5746 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محترف التسعير Pro - منصة الذكاء المالي للتجار</title>
-    <!-- PWA Manifest Requirements -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0b0f19">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #e2e8f0; }
-        .glass-card { background-color: #111827; border: 1px solid #1f293d; border-radius: 1rem; transition: all 0.2s; }
-        .glass-card:hover { border-color: #10b98150; }
-        .input-box { background-color: #090d16; border: 1px solid #1e293b; color: #ffffff; }
-        .input-box:focus-within { border-color: #10b981; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="محترف التسعير Pro — منصة الذكاء المالي للتجار وأصحاب المتاجر">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>محترف التسعير Pro 🧮 — منصة الذكاء المالي للتجار</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.3/papaparse.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Cairo,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(16,185,129,.10),transparent 28%),
+    radial-gradient(circle at 90% 10%,rgba(59,130,246,.08),transparent 25%),
+    #07111f;
+  color:#e5edf5;
+  min-height:100vh;
+}
+
+button,input,select,textarea{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#64748b;
+}
+
+::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#081321;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#26384e;
+  border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#38536e;
+}
+
+.glass{
+  background:rgba(12,27,44,.78);
+  border:1px solid rgba(148,163,184,.12);
+  box-shadow:
+    0 18px 60px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.glass-soft{
+  background:rgba(15,31,50,.55);
+  border:1px solid rgba(148,163,184,.10);
+}
+
+.card{
+  border-radius:24px;
+}
+
+.input{
+  width:100%;
+  background:#0a1727;
+  border:1px solid #24384f;
+  border-radius:15px;
+  padding:13px 15px;
+  color:#f8fafc;
+  outline:none;
+  transition:.2s;
+}
+
+.input:focus{
+  border-color:#10b981;
+  box-shadow:0 0 0 4px rgba(16,185,129,.10);
+}
+
+.input:hover{
+  border-color:#35516d;
+}
+
+select.input{
+  appearance:auto;
+}
+
+.label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#a9b9ca;
+  margin-bottom:7px;
+}
+
+.btn{
+  border-radius:15px;
+  padding:12px 18px;
+  font-weight:800;
+  transition:.2s;
+  border:1px solid transparent;
+}
+
+.btn:active{
+  transform:scale(.98);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#10b981,#059669);
+  color:#022c22;
+  box-shadow:0 10px 30px rgba(16,185,129,.15);
+}
+
+.btn-primary:hover{
+  background:linear-gradient(135deg,#34d399,#10b981);
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  background:#13243a;
+  border-color:#2a415b;
+  color:#dce7f2;
+}
+
+.btn-secondary:hover{
+  background:#182d47;
+  border-color:#3a5875;
+}
+
+.btn-danger{
+  background:rgba(239,68,68,.10);
+  border-color:rgba(239,68,68,.25);
+  color:#fca5a5;
+}
+
+.btn-danger:hover{
+  background:rgba(239,68,68,.18);
+}
+
+.navbtn{
+  padding:10px 13px;
+  border-radius:13px;
+  color:#9fb0c2;
+  transition:.2s;
+  white-space:nowrap;
+}
+
+.navbtn:hover,
+.navbtn.active{
+  background:rgba(16,185,129,.12);
+  color:#6ee7b7;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.muted{
+  color:#94a3b8;
+}
+
+.success{
+  color:#6ee7b7;
+}
+
+.danger{
+  color:#fca5a5;
+}
+
+.warning{
+  color:#fcd34d;
+}
+
+.info{
+  color:#93c5fd;
+}
+
+.small{
+  font-size:12px;
+}
+
+.section-title{
+  font-size:14px;
+  font-weight:900;
+  color:#d5deea;
+  margin:4px 0 13px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid4{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.result{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(16,185,129,.12),
+      rgba(15,23,42,.48)
+    );
+  border:1px solid rgba(16,185,129,.20);
+  border-radius:18px;
+  padding:16px;
+}
+
+.result.blue{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.12),
+      rgba(15,23,42,.48)
+    );
+  border-color:rgba(59,130,246,.20);
+}
+
+.result.warning-box{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(245,158,11,.11),
+      rgba(15,23,42,.48)
+    );
+  border-color:rgba(245,158,11,.22);
+}
+
+.metric{
+  font-size:23px;
+  font-weight:900;
+  color:#f8fafc;
+  margin-top:3px;
+  word-break:break-word;
+}
+
+.metric-label{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+.tool-card{
+  position:relative;
+  overflow:hidden;
+  text-align:right;
+  border-radius:20px;
+  padding:18px;
+  background:linear-gradient(
+    145deg,
+    rgba(16,31,49,.85),
+    rgba(8,19,33,.85)
+  );
+  border:1px solid rgba(148,163,184,.10);
+  transition:.25s;
+}
+
+.tool-card:before{
+  content:"";
+  position:absolute;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:rgba(16,185,129,.06);
+  top:-50px;
+  left:-30px;
+}
+
+.tool-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(16,185,129,.30);
+  box-shadow:0 15px 40px rgba(0,0,0,.20);
+}
+
+.tool-icon{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  background:rgba(16,185,129,.10);
+  font-size:23px;
+  margin-bottom:12px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.badge-green{
+  background:rgba(16,185,129,.10);
+  color:#6ee7b7;
+}
+
+.badge-blue{
+  background:rgba(59,130,246,.10);
+  color:#93c5fd;
+}
+
+.badge-red{
+  background:rgba(239,68,68,.10);
+  color:#fca5a5;
+}
+
+.badge-yellow{
+  background:rgba(245,158,11,.10);
+  color:#fcd34d;
+}
+
+.table-wrap{
+  overflow:auto;
+  border-radius:18px;
+  border:1px solid rgba(148,163,184,.10);
+}
+
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:760px;
+}
+
+th{
+  background:#0c1b2c;
+  color:#aebed0;
+  font-size:12px;
+  font-weight:800;
+  padding:12px;
+  text-align:right;
+  white-space:nowrap;
+}
+
+td{
+  padding:12px;
+  border-top:1px solid rgba(148,163,184,.08);
+  color:#dce5ee;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+tr:hover td{
+  background:rgba(16,185,129,.025);
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  border-radius:999px;
+  background:#14253a;
+  overflow:hidden;
+}
+
+.progress > div{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#10b981,#34d399);
+}
+
+.divider{
+  height:1px;
+  background:rgba(148,163,184,.10);
+  margin:18px 0;
+}
+
+.hero-orb{
+  position:absolute;
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  background:rgba(16,185,129,.08);
+  filter:blur(30px);
+  pointer-events:none;
+}
+
+.toast{
+  position:fixed;
+  bottom:22px;
+  left:22px;
+  z-index:200;
+  max-width:360px;
+  border-radius:16px;
+  padding:14px 18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:150;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(7px);
+  display:grid;
+  place-items:center;
+  padding:16px;
+}
+
+.modal{
+  width:100%;
+  max-width:520px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.report-print{
+  display:none;
+}
+
+@media(max-width:900px){
+  .grid4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:720px){
+  .grid2,
+  .grid3,
+  .grid4,
+  .metric-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    border-radius:19px;
+  }
+
+  .hero-title{
+    font-size:30px!important;
+  }
+
+  .metric{
+    font-size:21px;
+  }
+
+  .nav-scroll{
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+
+  .nav-scroll::-webkit-scrollbar{
+    height:3px;
+  }
+}
+
+@media print{
+  body{
+    background:#fff!important;
+    color:#111!important;
+  }
+
+  body > *:not(#printArea){
+    display:none!important;
+  }
+
+  #printArea{
+    display:block!important;
+  }
+
+  .print-page{
+    display:block!important;
+    padding:35px;
+    color:#111;
+    direction:rtl;
+    font-family:Arial,sans-serif;
+  }
+
+  .print-title{
+    color:#047857;
+    font-size:28px;
+    font-weight:900;
+  }
+
+  .print-card{
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:18px;
+    margin-top:14px;
+  }
+
+  .print-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .print-metric{
+    border:1px solid #ddd;
+    padding:12px;
+    border-radius:10px;
+  }
+
+  .print-label{
+    font-size:11px;
+    color:#666;
+  }
+
+  .print-value{
+    font-size:18px;
+    font-weight:800;
+    margin-top:4px;
+  }
+}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between pb-10">
 
-    <!-- Header -->
-    <header class="w-full bg-[#0b0f19]/95 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showView('dashboard')">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-xl">💎</div>
-                <div>
-                    <h1 class="text-base font-extrabold text-white flex items-center gap-1.5">
-                        محترف التسعير <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Pro</span>
-                    </h1>
-                    <p class="text-[10px] text-slate-400">منصة الذكاء المالي وحماية الأرباح للتجار</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <span id="badge-status" class="text-[11px] px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">جاري الفحص...</span>
-                <button onclick="showView('dashboard')" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700">الرئيسية</button>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- Main Views -->
-    <main class="max-w-6xl mx-auto px-4 mt-6 w-full flex-grow space-y-6">
+<!-- Toast -->
+<div id="toast" class="toast glass hidden"></div>
 
-        <!-- DASHBOARD VIEW -->
-        <div id="view-dashboard" class="space-y-6">
-            <div class="glass-card p-6 bg-gradient-to-r from-slate-900 via-emerald-950/20 to-slate-900 border-emerald-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h2 class="text-2xl font-black text-white">مرحباً بك في محترف التسعير Pro 🚀</h2>
-                    <p class="text-xs text-slate-300 mt-1">اختر حاسبة أو قم بترقية أعمالك برفع ملف إكسيل كامل للتحليل الدفعي الفوري.</p>
-                </div>
-                <button onclick="showView('bulk')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl border border-emerald-400/30 flex items-center gap-2">
-                    📊 تحليل ملف إكسيل / CSV كامل
-                </button>
-            </div>
+<!-- Print area -->
+<div id="printArea" class="hidden"></div>
 
-            <!-- Calculators Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div onclick="openCalc('calc-pricing')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">🏷️ 1. حاسبة تسعير المنتجات</h4>
-                    <p class="text-xs text-slate-400 mt-1">سعر البيع الموصى به والصافي بناءً على التكاليف والهامش.</p>
-                </div>
-                <div onclick="openCalc('calc-rto')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">⚖️ 2. رادار المرتجعات RTO</h4>
-                    <p class="text-xs text-slate-400 mt-1">حساب الخسائر وتكاليف الشحنات المرتجعة للطلبات.</p>
-                </div>
-                <div onclick="openCalc('calc-cpa')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">📈 3. حد أمان الإعلانات CPA</h4>
-                    <p class="text-xs text-slate-400 mt-1">حساب أقصى ميزانية مسموحة للشراء بدون خسارة.</p>
-                </div>
-                <div onclick="openCalc('calc-roas')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">🎯 4. حاسبة ROAS المستهدف</h4>
-                    <p class="text-xs text-slate-400 mt-1">حساب عائد الإعلانات المطلوب لتحقيق الربحية.</p>
-                </div>
-                <div onclick="openCalc('calc-breakeven')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">📍 5. نقطة التعادل Break-Even</h4>
-                    <p class="text-xs text-slate-400 mt-1">تحديد المبيعات المطلوبة لتغطية مصاريفك بالضبط.</p>
-                </div>
-                <div onclick="openCalc('calc-fixed')" class="glass-card p-5 cursor-pointer">
-                    <h4 class="text-base font-bold text-white">🏢 6. توزيع المصاريف الثابتة</h4>
-                    <p class="text-xs text-slate-400 mt-1">تقسيم الإيجار والمرتبات على سعر كل قطعة.</p>
-                </div>
-            </div>
+<!-- HEADER -->
+<header class="sticky top-0 z-40 border-b border-slate-800/70 bg-[#07111f]/90 backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-4 py-3">
+
+    <div class="flex items-center justify-between gap-3">
+
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-11 h-11 shrink-0 rounded-2xl bg-emerald-400/15 grid place-items-center text-2xl">
+          🧮
         </div>
 
-        <!-- BULK CSV ANALYSIS VIEW -->
-        <div id="view-bulk" class="hidden space-y-6">
-            <button onclick="showView('dashboard')" class="bg-slate-800 text-slate-300 text-xs px-3 py-2 rounded-lg">← العودة للرئيسية</button>
-            <div class="glass-card p-6 space-y-4">
-                <h2 class="text-xl font-bold text-white">📊 التحليل الدفعي للمنتجات (CSV / Excel)</h2>
-                <p class="text-xs text-slate-400">قم برفع ملف المنتجات (يحتوي على الأقل على أعمدة: Name, Cost, Price) لتحليل أرباح كل قطعة تلقائياً.</p>
-                
-                <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="handleCSVUpload(event)">
-                <button onclick="document.getElementById('csv-file-input').click()" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 font-bold px-4 py-3 rounded-xl text-xs w-full">
-                    📂 اختر ملف CSV من جهازك
-                </button>
+        <div class="min-w-0">
+          <h1 class="font-extrabold truncate">
+            محترف التسعير
+            <span class="text-emerald-400">Pro</span>
+          </h1>
 
-                <div id="csv-results" class="overflow-x-auto hidden">
-                    <table class="w-full text-right text-xs">
-                        <thead>
-                            <tr class="border-b border-slate-800 text-slate-400">
-                                <th class="py-2 px-3">المنتج</th>
-                                <th class="py-2 px-3">التكلفة</th>
-                                <th class="py-2 px-3">سعر البيع</th>
-                                <th class="py-2 px-3">الربح</th>
-                                <th class="py-2 px-3">الهامش</th>
-                            </tr>
-                        </thead>
-                        <tbody id="csv-table-body"></tbody>
-                    </table>
-                </div>
-            </div>
+          <p class="text-xs muted truncate">
+            منصة الذكاء المالي للتجار
+          </p>
         </div>
+      </div>
 
-        <!-- SINGLE CALCULATOR VIEW -->
-        <div id="view-calc" class="hidden space-y-6">
-            <button onclick="showView('dashboard')" class="bg-slate-800 text-slate-300 text-xs px-3 py-2 rounded-lg">← العودة للرئيسية</button>
-            <div class="glass-card p-6 space-y-6">
-                <div>
-                    <h2 id="calc-title" class="text-xl font-black text-white"></h2>
-                    <p id="calc-desc" class="text-xs text-slate-400 mt-1"></p>
-                </div>
-                <div id="inputs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                <button onclick="handleCalculateClick()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl text-sm transition">
-                    🧮 احسب النتيجة الآن
-                </button>
-            </div>
-            <div id="calc-result" class="glass-card p-5 hidden space-y-3">
-                <h3 class="text-xs font-bold text-emerald-400">✓ نتيجة الحساب والتحليل المالي</h3>
-                <div id="result-output" class="text-lg font-bold text-white"></div>
-            </div>
-        </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span id="trialBadge"
+              class="text-xs rounded-full px-3 py-2 bg-slate-800 text-slate-300">
+          التجربة: 2/2
+        </span>
 
-    </main>
+        <button class="btn btn-secondary text-sm"
+                onclick="openActivation()">
+          🔑 تفعيل
+        </button>
+      </div>
 
-    <!-- ACTIVATION MODAL -->
-    <div id="activation-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-        <div class="glass-card max-w-md w-full p-6 text-center space-y-4 border-amber-500/40">
-            <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl">🔒</div>
-            <h3 class="text-lg font-black text-white">انتهت التجربة المجانية!</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">استنفدت المرتين المجانيتين. يرجى إدخال كود التفعيل لتفعيل تطبيقك بالكامل والاستمرار بلا حدود.</p>
-            <div class="space-y-2 text-right">
-                <input type="text" id="activation-code-input" placeholder="أدخل الكود هنا (مثال: PRO-9988-X)" class="w-full input-box px-4 py-3 rounded-xl text-center text-emerald-400 font-bold uppercase tracking-widest">
-            </div>
-            <button onclick="verifyCodeWithSupabase()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm">
-                تفعيل التطبيق
-            </button>
-        </div>
     </div>
 
-    <script>
-        const SUPABASE_URL = "https://wcmiyrroskstgzwbvsor.supabase.co";
-        const SUPABASE_KEY = "Sb_publishable_Hia5ResownbSTejq-DcWkA_HbZTcsZl";
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <div class="nav-scroll mt-3">
+      <nav class="flex gap-1 min-w-max">
+        <button id="nav-home"
+                class="navbtn active"
+                onclick="showPage('home')">
+          🏠 الرئيسية
+        </button>
 
-        const MAX_FREE_USAGE = 2;
+        <button id="nav-history"
+                class="navbtn"
+                onclick="showPage('history')">
+          🕘 السجل
+        </button>
 
-        function checkStatus() {
-            const isActivated = localStorage.getItem('isActivated') === 'true';
-            const usageCount = parseInt(localStorage.getItem('freeUsageCount') || '0');
-            const badge = document.getElementById('badge-status');
+        <button id="nav-bulk"
+                class="navbtn"
+                onclick="showPage('bulk')">
+          📊 التحليل الدفعي
+        </button>
 
-            if (isActivated) {
-                badge.innerText = 'نسخة مفعلة بالكامل ✓';
-                badge.className = 'text-[11px] px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold';
-            } else {
-                const remaining = Math.max(0, MAX_FREE_USAGE - usageCount);
-                badge.innerText = `تجريبي (${remaining} متبقي)`;
+        <button id="nav-about"
+                class="navbtn"
+                onclick="showPage('about')">
+          ℹ️ عن الأداة
+        </button>
+      </nav>
+    </div>
+
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-6">
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="home" class="page">
+
+  <div class="glass card p-6 md:p-9 mb-6 relative overflow-hidden">
+
+    <div class="hero-orb right-0 top-0"></div>
+
+    <div class="relative z-10 max-w-4xl">
+
+      <span class="badge badge-green mb-4">
+        🧠 قرار تسعير مبني على أرقامك
+      </span>
+
+      <h2 class="hero-title text-4xl md:text-5xl font-black leading-tight">
+        متسعّرش منتجك بالتخمين.
+        <span class="text-emerald-400">
+          اعرف الربح الحقيقي الأول.
+        </span>
+      </h2>
+
+      <p class="muted mt-5 leading-8 max-w-3xl">
+        محترف التسعير Pro بيجمع لك تكلفة المنتج والشحن والتغليف
+        والخصومات والإعلانات والعمولات والمرتجعات والمصاريف الثابتة
+        في مكان واحد عشان قرار البيع يبقى مبني على أرقام فعلية.
+      </p>
+
+      <div class="flex flex-wrap gap-3 mt-6">
+
+        <button class="btn btn-primary"
+                onclick="openCalc('pricing')">
+          🧮 ابدأ بالتسعير
+        </button>
+
+        <button class="btn btn-secondary"
+                onclick="showPage('bulk')">
+          📊 حلل ملف منتجات
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- QUICK STATS -->
+  <div class="grid4 mb-6">
+
+    <div class="glass card p-5">
+      <div class="muted text-xs">عدد الحاسبات</div>
+      <div class="metric mt-1">11</div>
+      <div class="text-xs success mt-2">أدوات مالية متكاملة</div>
+    </div>
+
+    <div class="glass card p-5">
+      <div class="muted text-xs">السجل المحلي</div>
+      <div id="historyCountHome" class="metric mt-1">0</div>
+      <div class="text-xs muted mt-2">عملية محفوظة</div>
+    </div>
+
+    <div class="glass card p-5">
+      <div class="muted text-xs">حالة الحساب</div>
+      <div id="statusHome" class="metric mt-1 text-base">تجربة</div>
+      <div class="text-xs muted mt-2">يمكن التفعيل بالكود</div>
+    </div>
+
+    <div class="glass card p-5">
+      <div class="muted text-xs">آخر نتيجة</div>
+      <div id="lastTypeHome" class="metric mt-1 text-base">—</div>
+      <div class="text-xs muted mt-2">آخر حاسبة استخدمتها</div>
+    </div>
+
+  </div>
+
+
+  <!-- CALCULATORS -->
+  <div class="glass card p-5 md:p-6">
+
+    <div class="flex items-center justify-between gap-3 mb-5">
+      <div>
+        <h3 class="text-xl font-black">
+          🧰 أدوات محترف التسعير Pro
+        </h3>
+
+        <p class="muted text-sm mt-1">
+          اختار الأداة حسب المشكلة اللي بتحاول تحلها.
+        </p>
+      </div>
+
+      <span class="badge badge-green">
+        11 حاسبة
+      </span>
+    </div>
+
+    <div id="homeCards"
+         class="grid2">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CALCULATOR PAGE
+========================= -->
+
+<section id="calculator" class="page hidden">
+
+  <div class="flex items-center gap-3 mb-5">
+
+    <button class="btn btn-secondary"
+            onclick="showPage('home')">
+      ← الرئيسية
+    </button>
+
+    <div class="min-w-0">
+      <h2 id="calcTitle"
+          class="text-2xl font-black">
+      </h2>
+
+      <p id="calcDesc"
+         class="muted text-sm">
+      </p>
+    </div>
+
+  </div>
+
+  <div id="calcBody"></div>
+
+</section>
+
+
+<!-- =========================
+     BULK CSV
+========================= -->
+
+<section id="bulk" class="page hidden">
+
+  <div class="flex items-center gap-3 mb-5">
+
+    <button class="btn btn-secondary"
+            onclick="showPage('home')">
+      ← الرئيسية
+    </button>
+
+    <div>
+      <h2 class="text-2xl font-black">
+        📊 تحليل المنتجات بالجملة
+      </h2>
+
+      <p class="muted text-sm">
+        ارفع CSV وشوف التكلفة والربح والهامش وحالة كل منتج.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="glass card p-5 md:p-6">
+
+    <div class="grid2">
+
+      <div>
+        <label class="label">
+          ملف المنتجات CSV
+        </label>
+
+        <input id="csvFile"
+               type="file"
+               accept=".csv,text/csv"
+               class="input">
+      </div>
+
+      <div>
+        <label class="label">
+          طريقة تفسير العمولة
+        </label>
+
+        <select id="csvFeeMode"
+                class="input">
+          <option value="percent">
+            عمولة كنسبة %
+          </option>
+
+          <option value="fixed">
+            عمولة كقيمة ثابتة
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+
+    <div class="glass-soft rounded-2xl p-4 mt-4">
+
+      <div class="font-bold text-sm mb-2">
+        📌 أسماء الأعمدة المدعومة
+      </div>
+
+      <p class="muted text-xs leading-7">
+        المنتج / name — التكلفة / cost — سعر البيع / price —
+        الشحن / shipping — التغليف / packaging —
+        الإعلان / ads — الخصم / discount —
+        العمولة / fee أو commission
+      </p>
+
+    </div>
+
+
+    <div class="flex flex-wrap gap-2 mt-5">
+
+      <button class="btn btn-primary"
+              onclick="runCSVAnalysis()">
+        📊 تحليل الملف
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="downloadCSVTemplate()">
+        ⬇️ تحميل نموذج CSV
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="exportCSVResults()">
+        📥 تصدير النتائج
+      </button>
+
+    </div>
+
+
+    <div id="csvSummary"
+         class="mt-5">
+    </div>
+
+
+    <div class="grid2 mt-5">
+
+      <div>
+        <label class="label">
+          بحث في المنتجات
+        </label>
+
+        <input id="csvSearch"
+               class="input"
+               placeholder="اكتب اسم المنتج..."
+               oninput="renderCSVTable()">
+      </div>
+
+      <div>
+        <label class="label">
+          فلترة
+        </label>
+
+        <select id="csvFilter"
+                class="input"
+                onchange="renderCSVTable()">
+
+          <option value="all">
+            كل المنتجات
+          </option>
+
+          <option value="profit">
+            رابحة
+          </option>
+
+          <option value="loss">
+            خاسرة
+          </option>
+
+          <option value="zero">
+            بدون ربح
+          </option>
+
+        </select>
+      </div>
+
+    </div>
+
+
+    <div class="table-wrap mt-5">
+      <table id="csvTable"></table>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     HISTORY
+========================= -->
+
+<section id="history" class="page hidden">
+
+  <div class="flex items-center justify-between gap-3 mb-5">
+
+    <div>
+      <h2 class="text-2xl font-black">
+        🕘 سجل العمليات
+      </h2>
+
+      <p class="muted text-sm">
+        النتائج الأخيرة محفوظة على جهازك.
+      </p>
+    </div>
+
+    <button class="btn btn-danger"
+            onclick="clearHistory()">
+      🗑️ مسح السجل
+    </button>
+
+  </div>
+
+  <div id="historyList"></div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about" class="page hidden">
+
+  <div class="glass card p-6">
+
+    <span class="badge badge-green">
+      محترف التسعير Pro 🧮
+    </span>
+
+    <h2 class="text-3xl font-black mt-4">
+      منصة مالية للتاجر مش مجرد آلة حاسبة.
+    </h2>
+
+    <p class="muted leading-8 mt-4 max-w-3xl">
+      الأداة مصممة لمساعدة التاجر على فهم العلاقة بين التكلفة
+      وسعر البيع والربح والإعلانات والشحن والخصومات والمرتجعات
+      والمصاريف والعمولات.
+    </p>
+
+    <div class="grid2 mt-6">
+
+      <div class="glass-soft rounded-2xl p-5">
+        <div class="font-black">
+          🎯 الهدف
+        </div>
+
+        <p class="muted text-sm leading-7 mt-2">
+          تقليل قرارات التسعير العشوائية وإظهار أثر كل مصروف
+          على الربح النهائي.
+        </p>
+      </div>
+
+      <div class="glass-soft rounded-2xl p-5">
+        <div class="font-black">
+          🔐 التفعيل
+        </div>
+
+        <p class="muted text-sm leading-7 mt-2">
+          النسخة تبدأ بتجربتين ناجحتين، وبعدها تحتاج إلى كود
+          تفعيل صالح من قاعدة البيانات.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     ACTIVATION MODAL
+========================= -->
+
+<div id="activationModal"
+     class="modal-backdrop hidden">
+
+  <div class="modal glass card p-6">
+
+    <div class="flex items-center justify-between">
+
+      <div>
+        <span class="badge badge-yellow">
+          🔐 Pro
+        </span>
+
+        <h3 class="text-xl font-black mt-2">
+          تفعيل الأداة
+        </h3>
+      </div>
+
+      <button onclick="closeActivation()"
+              class="text-slate-400 text-3xl">
+        ×
+      </button>
+
+    </div>
+
+    <p id="activationReason"
+       class="muted text-sm leading-7 mt-4">
+      أدخل كود التفعيل للاستمرار.
+    </p>
+
+    <label class="label mt-5">
+      كود التفعيل
+    </label>
+
+    <input id="activationCode"
+           class="input uppercase"
+           autocomplete="off"
+           placeholder="TSP-XXXX-XXXX">
+
+    <button class="btn btn-primary w-full mt-4"
+            onclick="activate()">
+      🔓 تفعيل محترف التسعير
+    </button>
+
+    <p id="activationMsg"
+       class="text-sm mt-4">
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     CONFIRM MODAL
+========================= -->
+
+<div id="confirmModal"
+     class="modal-backdrop hidden">
+
+  <div class="modal glass card p-6 max-w-sm">
+
+    <h3 id="confirmTitle"
+        class="text-xl font-black">
+      تأكيد
+    </h3>
+
+    <p id="confirmText"
+       class="muted text-sm leading-7 mt-3">
+    </p>
+
+    <div class="flex gap-2 mt-5">
+
+      <button class="btn btn-secondary flex-1"
+              onclick="closeConfirm()">
+        إلغاء
+      </button>
+
+      <button id="confirmBtn"
+              class="btn btn-primary flex-1">
+        تأكيد
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  'https://wcmiyrroskstgzwbvsor.supabase.co';
+
+const SUPABASE_KEY =
+  'Sb_publishable_Hia5ResownbSTejq-DcWcA_HbZTcsZl'.replace(
+    'DcWcA',
+    'DcWkA'
+  );
+
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================================
+   APP CONSTANTS
+========================================================= */
+
+const TRIAL_LIMIT = 2;
+
+const HISTORY_KEY =
+  'tas3eer_pro_history_v3';
+
+const TRIAL_KEY =
+  'pro_trial_uses';
+
+const ACTIVATED_KEY =
+  'pro_app_activated';
+
+const DEVICE_KEY =
+  'pro_device_id';
+
+
+/* =========================================================
+   CALCULATORS
+========================================================= */
+
+const CALCS = [
+
+  {
+    id:'pricing',
+    icon:'🧮',
+    title:'تسعير المنتجات',
+    desc:'اعرف سعر البيع المقترح والربح والهامش بعد كل التكاليف.'
+  },
+
+  {
+    id:'rto',
+    icon:'↩️',
+    title:'رادار المرتجعات RTO',
+    desc:'اعرف تأثير المرتجعات والشحن على الربحية ونقطة الخطر.'
+  },
+
+  {
+    id:'cpa',
+    icon:'🎯',
+    title:'حد أمان CPA',
+    desc:'احسب أقصى تكلفة إعلان مسموحة للطلب قبل الوصول للخسارة.'
+  },
+
+  {
+    id:'roas',
+    icon:'📣',
+    title:'ROAS المستهدف',
+    desc:'اعرف العائد الإعلاني المطلوب لتحقيق الربح المستهدف.'
+  },
+
+  {
+    id:'break',
+    icon:'⚖️',
+    title:'نقطة التعادل',
+    desc:'اعرف عدد الطلبات أو القطع اللازمة لتغطية المصاريف.'
+  },
+
+  {
+    id:'overhead',
+    icon:'🏢',
+    title:'موزع المصاريف الثابتة',
+    desc:'وزع الإيجار والمرتبات والاشتراكات على المنتجات.'
+  },
+
+  {
+    id:'bundle',
+    icon:'🎁',
+    title:'العروض والباندل',
+    desc:'حلل الباندلات والخصومات واعرف ربح العرض الحقيقي.'
+  },
+
+  {
+    id:'platform',
+    icon:'🛒',
+    title:'أرباح المنصات',
+    desc:'احسب الربح بعد عمولة المنصة والدفع والشحن.'
+  },
+
+  {
+    id:'campaign',
+    icon:'📈',
+    title:'أرباح الحملات',
+    desc:'حلل الحملة من الإنفاق والإيرادات حتى صافي الربح.'
+  },
+
+  {
+    id:'pdf',
+    icon:'📄',
+    title:'التقرير المالي',
+    desc:'حوّل نتيجة الحساب إلى تقرير منظم قابل للطباعة والحفظ PDF.'
+  },
+
+  {
+    id:'bulk',
+    icon:'📊',
+    title:'تحليل CSV الدفعي',
+    desc:'حلل عددًا كبيرًا من المنتجات في جدول واحد.'
+  }
+
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentCalc = null;
+
+let lastReport = null;
+
+let csvRows = [];
+
+let csvResults = [];
+
+let confirmCallback = null;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function n(value){
+
+  const number =
+    Number(
+      String(value ?? '')
+        .replace(/,/g,'')
+        .replace(/%/g,'')
+        .trim()
+    );
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+}
+
+
+function money(value){
+
+  return `${n(value).toLocaleString(
+    'ar-EG',
+    {
+      maximumFractionDigits:2
+    }
+  )} جنيه`;
+}
+
+
+function number(value){
+
+  return n(value).toLocaleString(
+    'ar-EG',
+    {
+      maximumFractionDigits:2
+    }
+  );
+}
+
+
+function pct(value){
+
+  return `${n(value).toLocaleString(
+    'ar-EG',
+    {
+      maximumFractionDigits:2
+    }
+  )}%`;
+}
+
+
+function el(id){
+
+  return document.getElementById(id);
+}
+
+
+function val(id){
+
+  const element = el(id);
+
+  return element
+    ? n(element.value)
+    : 0;
+}
+
+
+function textVal(id){
+
+  const element = el(id);
+
+  return element
+    ? String(element.value || '').trim()
+    : '';
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? '')
+    .replace(/[&<>"']/g,function(m){
+
+      return {
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+      }[m];
+
+    });
+
+}
+
+
+function toast(message,type='normal'){
+
+  const box = el('toast');
+
+  box.textContent = message;
+
+  box.classList.remove(
+    'hidden',
+    'border-red-500',
+    'border-emerald-500'
+  );
+
+  box.classList.add('border');
+
+  if(type === 'error'){
+    box.classList.add('border-red-500');
+  }else{
+    box.classList.add('border-emerald-500');
+  }
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer =
+    setTimeout(function(){
+      box.classList.add('hidden');
+    },3200);
+
+}
+
+
+function showPage(id){
+
+  document
+    .querySelectorAll('.page')
+    .forEach(function(page){
+      page.classList.add('hidden');
+    });
+
+  const target = el(id);
+
+  if(target){
+    target.classList.remove('hidden');
+  }
+
+  document
+    .querySelectorAll('.navbtn')
+    .forEach(function(btn){
+      btn.classList.remove('active');
+    });
+
+  const nav =
+    el('nav-' + id);
+
+  if(nav){
+    nav.classList.add('active');
+  }else{
+    const homeNav = el('nav-home');
+
+    if(homeNav){
+      homeNav.classList.add('active');
+    }
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+  if(id === 'history'){
+    renderHistory();
+  }
+
+  if(id === 'home'){
+    updateHomeStats();
+  }
+
+}
+
+
+/* =========================================================
+   DEVICE
+========================================================= */
+
+function getDeviceId(){
+
+  let id =
+    localStorage.getItem(DEVICE_KEY);
+
+  if(!id){
+
+    id =
+      'DEV-' +
+      crypto.randomUUID().replaceAll('-','')
+        .slice(0,18)
+        .toUpperCase();
+
+    localStorage.setItem(
+      DEVICE_KEY,
+      id
+    );
+  }
+
+  return id;
+}
+
+
+/* =========================================================
+   LICENSE / TRIAL
+========================================================= */
+
+function trialUses(){
+
+  return Number(
+    localStorage.getItem(TRIAL_KEY) || 0
+  );
+
+}
+
+
+function isActivated(){
+
+  return (
+    localStorage.getItem(
+      ACTIVATED_KEY
+    ) === 'true'
+  );
+
+}
+
+
+function remainingTrials(){
+
+  return Math.max(
+    0,
+    TRIAL_LIMIT - trialUses()
+  );
+
+}
+
+
+function updateBadge(){
+
+  const badge =
+    el('trialBadge');
+
+  if(isActivated()){
+
+    badge.textContent =
+      '✓ Pro مفعلة';
+
+    badge.className =
+      'text-xs rounded-full px-3 py-2 bg-emerald-500/10 text-emerald-300';
+
+  }else{
+
+    badge.textContent =
+      `التجربة: ${remainingTrials()}/${TRIAL_LIMIT}`;
+
+    badge.className =
+      'text-xs rounded-full px-3 py-2 bg-slate-800 text-slate-300';
+
+  }
+
+  updateHomeStats();
+
+}
+
+
+function consumeTrial(){
+
+  if(isActivated()){
+    return true;
+  }
+
+  if(trialUses() >= TRIAL_LIMIT){
+
+    openActivation(
+      'انتهت التجربتان المجانيتان. أدخل كود التفعيل للاستمرار.'
+    );
+
+    return false;
+  }
+
+  const next =
+    trialUses() + 1;
+
+  localStorage.setItem(
+    TRIAL_KEY,
+    String(next)
+  );
+
+  updateBadge();
+
+  return true;
+}
+
+
+/* =========================================================
+   ACTIVATION
+========================================================= */
+
+function openActivation(
+  reason='أدخل كود التفعيل للاستمرار.'
+){
+
+  el('activationReason').textContent =
+    reason;
+
+  el('activationMsg').textContent =
+    '';
+
+  el('activationCode').value =
+    '';
+
+  el('activationModal')
+    .classList.remove('hidden');
+
+  setTimeout(function(){
+    el('activationCode').focus();
+  },100);
+
+}
+
+
+function closeActivation(){
+
+  el('activationModal')
+    .classList.add('hidden');
+
+}
+
+
+async function activate(){
+
+  const code =
+    textVal('activationCode')
+      .toUpperCase()
+      .replace(/\s+/g,'');
+
+  const msg =
+    el('activationMsg');
+
+  if(!code){
+
+    msg.textContent =
+      'اكتب كود التفعيل أولًا.';
+
+    msg.className =
+      'text-sm mt-4 danger';
+
+    return;
+  }
+
+  msg.textContent =
+    'جاري التحقق من الكود...';
+
+  msg.className =
+    'text-sm mt-4 muted';
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from('activation_codes')
+        .select('id,code,is_used')
+        .eq('code',code)
+        .maybeSingle();
+
+    if(error){
+      throw error;
+    }
+
+    if(!data){
+
+      msg.textContent =
+        '❌ كود التفعيل غير صحيح.';
+
+      msg.className =
+        'text-sm mt-4 danger';
+
+      return;
+    }
+
+    if(data.is_used){
+
+      msg.textContent =
+        '❌ الكود مستخدم بالفعل.';
+
+      msg.className =
+        'text-sm mt-4 danger';
+
+      return;
+    }
+
+    const {
+      data:updateData,
+      error:updateError
+    } =
+      await db
+        .from('activation_codes')
+        .update({
+          is_used:true
+        })
+        .eq('id',data.id)
+        .eq('is_used',false)
+        .select('id');
+
+    if(updateError){
+      throw updateError;
+    }
+
+    if(!updateData || !updateData.length){
+
+      msg.textContent =
+        '❌ الكود تم استخدامه بالفعل أو لم يعد متاحًا.';
+
+      msg.className =
+        'text-sm mt-4 danger';
+
+      return;
+    }
+
+    localStorage.setItem(
+      ACTIVATED_KEY,
+      'true'
+    );
+
+    localStorage.setItem(
+      TRIAL_KEY,
+      String(TRIAL_LIMIT)
+    );
+
+    updateBadge();
+
+    msg.textContent =
+      '✅ تم تفعيل محترف التسعير Pro بنجاح.';
+
+    msg.className =
+      'text-sm mt-4 success';
+
+    toast(
+      'تم تفعيل النسخة Pro بنجاح'
+    );
+
+    setTimeout(
+      closeActivation,
+      900
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    msg.textContent =
+      '❌ تعذر الاتصال بقاعدة البيانات. تأكد من إعدادات Supabase وRLS.';
+
+    msg.className =
+      'text-sm mt-4 danger';
+
+  }
+
+}
+
+
+/* =========================================================
+   INPUT COMPONENTS
+========================================================= */
+
+function field(
+  id,
+  label,
+  placeholder='0',
+  step='0.01',
+  help=''
+){
+
+  return `
+    <div>
+      <label class="label">${escapeHtml(label)}</label>
+
+      <input
+        id="${escapeHtml(id)}"
+        class="input"
+        type="number"
+        min="0"
+        step="${escapeHtml(step)}"
+        placeholder="${escapeHtml(placeholder)}"
+      >
+
+      ${
+        help
+        ? `<div class="text-[11px] muted mt-1">${escapeHtml(help)}</div>`
+        : ''
+      }
+    </div>
+  `;
+
+}
+
+
+function textField(
+  id,
+  label,
+  placeholder=''
+){
+
+  return `
+    <div>
+      <label class="label">${escapeHtml(label)}</label>
+
+      <input
+        id="${escapeHtml(id)}"
+        class="input"
+        type="text"
+        placeholder="${escapeHtml(placeholder)}"
+      >
+    </div>
+  `;
+
+}
+
+
+function selectField(
+  id,
+  label,
+  options
+){
+
+  return `
+    <div>
+      <label class="label">${escapeHtml(label)}</label>
+
+      <select id="${escapeHtml(id)}"
+              class="input">
+
+        ${options.map(function(option){
+
+          return `
+            <option value="${escapeHtml(option[0])}">
+              ${escapeHtml(option[1])}
+            </option>
+          `;
+
+        }).join('')}
+
+      </select>
+    </div>
+  `;
+
+}
+
+
+function actionButton(){
+
+  return `
+    <button
+      class="btn btn-primary w-full mt-5"
+      onclick="runCurrentCalculator()"
+    >
+      🧮 احسب النتيجة
+    </button>
+
+    <div id="out" class="mt-5"></div>
+  `;
+
+}
+
+
+function metric(
+  label,
+  value,
+  className=''
+){
+
+  return `
+    <div class="result ${className}">
+      <div class="metric-label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div class="metric ${className.includes('danger')?'danger':''}">
+        ${value}
+      </div>
+    </div>
+  `;
+
+}
+
+
+function insightBox(
+  title,
+  text,
+  type='normal'
+){
+
+  let cls = 'result mt-4';
+
+  if(type === 'warning'){
+    cls += ' warning-box';
+  }
+
+  if(type === 'blue'){
+    cls += ' blue';
+  }
+
+  return `
+    <div class="${cls}">
+      <div class="font-black text-sm">
+        ${escapeHtml(title)}
+      </div>
+
+      <p class="muted text-sm leading-7 mt-2">
+        ${escapeHtml(text)}
+      </p>
+    </div>
+  `;
+
+}
+
+
+/* =========================================================
+   CALCULATOR TEMPLATES
+========================================================= */
+
+const templates = {
+
+
+/* ---------------------------------------------------------
+   1. PRICING
+--------------------------------------------------------- */
+
+pricing:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        🧮 بيانات المنتج
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'p_cost',
+          'تكلفة شراء/تصنيع المنتج',
+          '100'
+        )}
+
+        ${field(
+          'p_pack',
+          'التغليف والتجهيز',
+          '5'
+        )}
+
+        ${field(
+          'p_shipping',
+          'الشحن الذي يتحمله المتجر',
+          '40'
+        )}
+
+        ${field(
+          'p_extra',
+          'مصاريف إضافية لكل طلب',
+          '0'
+        )}
+
+        ${field(
+          'p_ads',
+          'الإعلان لكل طلب CPA',
+          '20'
+        )}
+
+        ${field(
+          'p_platform_fee',
+          'عمولة المنصة %',
+          '0'
+        )}
+
+        ${field(
+          'p_payment_fee',
+          'عمولة الدفع %',
+          '0'
+        )}
+
+        ${field(
+          'p_fixed_fee',
+          'رسوم ثابتة للطلب',
+          '0'
+        )}
+
+        ${field(
+          'p_discount',
+          'الخصم من سعر القائمة %',
+          '0'
+        )}
+
+        ${field(
+          'p_target_margin',
+          'هامش الربح المستهدف %',
+          '30'
+        )}
+
+        ${field(
+          'p_sale_price',
+          'سعر البيع الحالي قبل الخصم',
+          '250'
+        )}
+
+      </div>
+
+
+      <div class="glass-soft rounded-2xl p-4 mt-5">
+
+        <div class="font-black text-sm">
+          💡 كيف يتم الحساب؟
+        </div>
+
+        <p class="muted text-xs leading-7 mt-2">
+          الأداة تحسب التكلفة الحقيقية للطلب، ثم صافي سعر البيع
+          بعد الخصم، وبعدها تخصم التكاليف والعمولات والإعلان
+          للوصول للربح والهامش الحقيقي.
+        </p>
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   2. RTO
+--------------------------------------------------------- */
+
+rto:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        ↩️ رادار المرتجعات والشحن
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'r_orders',
+          'إجمالي الطلبات',
+          '100',
+          '1'
+        )}
+
+        ${field(
+          'r_rto',
+          'نسبة RTO %',
+          '20'
+        )}
+
+        ${field(
+          'r_aov',
+          'متوسط قيمة الطلب',
+          '300'
+        )}
+
+        ${field(
+          'r_product',
+          'تكلفة المنتج للطلب',
+          '120'
+        )}
+
+        ${field(
+          'r_delivery_ship',
+          'شحن الطلب المسلم',
+          '40'
+        )}
+
+        ${field(
+          'r_return_ship',
+          'تكلفة شحن المرتجع',
+          '40'
+        )}
+
+        ${field(
+          'r_pack',
+          'تكلفة التغليف لكل طلب',
+          '5'
+        )}
+
+        ${field(
+          'r_ads',
+          'الإعلان لكل طلب',
+          '30'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   3. CPA
+--------------------------------------------------------- */
+
+cpa:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        🎯 حد أمان تكلفة الإعلان CPA
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'c_sale',
+          'سعر البيع قبل الخصم',
+          '300'
+        )}
+
+        ${field(
+          'c_discount',
+          'الخصم %',
+          '0'
+        )}
+
+        ${field(
+          'c_product',
+          'تكلفة المنتج',
+          '120'
+        )}
+
+        ${field(
+          'c_pack',
+          'التغليف',
+          '5'
+        )}
+
+        ${field(
+          'c_shipping',
+          'الشحن',
+          '40'
+        )}
+
+        ${field(
+          'c_extra',
+          'مصاريف إضافية',
+          '0'
+        )}
+
+        ${field(
+          'c_platform',
+          'عمولة المنصة %',
+          '0'
+        )}
+
+        ${field(
+          'c_payment',
+          'عمولة الدفع %',
+          '0'
+        )}
+
+        ${field(
+          'c_fixed',
+          'رسوم ثابتة',
+          '0'
+        )}
+
+        ${field(
+          'c_target_profit',
+          'الربح المطلوب بعد الإعلان',
+          '50'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   4. ROAS
+--------------------------------------------------------- */
+
+roas:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        📣 ROAS المستهدف
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'ro_revenue',
+          'متوسط قيمة الطلب',
+          '300'
+        )}
+
+        ${field(
+          'ro_product',
+          'تكلفة المنتج للطلب',
+          '120'
+        )}
+
+        ${field(
+          'ro_shipping',
+          'الشحن والتوصيل',
+          '40'
+        )}
+
+        ${field(
+          'ro_pack',
+          'التغليف',
+          '5'
+        )}
+
+        ${field(
+          'ro_platform',
+          'عمولة المنصة %',
+          '0'
+        )}
+
+        ${field(
+          'ro_payment',
+          'عمولة الدفع %',
+          '0'
+        )}
+
+        ${field(
+          'ro_fixed',
+          'رسوم ثابتة',
+          '0'
+        )}
+
+        ${field(
+          'ro_target',
+          'الربح المستهدف لكل طلب',
+          '50'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   5. BREAK EVEN
+--------------------------------------------------------- */
+
+break:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        ⚖️ نقطة التعادل
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'b_fixed',
+          'إجمالي المصاريف الثابتة الشهرية',
+          '10000'
+        )}
+
+        ${field(
+          'b_price',
+          'متوسط سعر البيع للطلب',
+          '300'
+        )}
+
+        ${field(
+          'b_variable',
+          'متوسط التكلفة المتغيرة للطلب',
+          '180'
+        )}
+
+        ${field(
+          'b_target_profit',
+          'ربح شهري مستهدف إضافي',
+          '0'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   6. OVERHEAD
+--------------------------------------------------------- */
+
+overhead:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        🏢 موزع المصاريف الثابتة
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'o_rent',
+          'الإيجار الشهري',
+          '3000'
+        )}
+
+        ${field(
+          'o_salaries',
+          'المرتبات الشهرية',
+          '5000'
+        )}
+
+        ${field(
+          'o_subscriptions',
+          'اشتراكات وخدمات',
+          '500'
+        )}
+
+        ${field(
+          'o_other',
+          'مصاريف ثابتة أخرى',
+          '500'
+        )}
+
+        ${field(
+          'o_units',
+          'عدد الوحدات المتوقع بيعها',
+          '300',
+          '1'
+        )}
+
+        ${field(
+          'o_unit_cost',
+          'تكلفة المنتج للوحدة',
+          '100'
+        )}
+
+        ${field(
+          'o_target_margin',
+          'هامش الربح المطلوب %',
+          '30'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   7. BUNDLE
+--------------------------------------------------------- */
+
+bundle:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        🎁 تحليل الباندل والعروض
+      </div>
+
+      <div class="grid3">
+
+        ${field(
+          'bd_cost1',
+          'تكلفة المنتج الأول',
+          '100'
+        )}
+
+        ${field(
+          'bd_qty1',
+          'كمية المنتج الأول',
+          '1',
+          '1'
+        )}
+
+        ${field(
+          'bd_cost2',
+          'تكلفة المنتج الثاني',
+          '80'
+        )}
+
+        ${field(
+          'bd_qty2',
+          'كمية المنتج الثاني',
+          '1',
+          '1'
+        )}
+
+        ${field(
+          'bd_cost3',
+          'تكلفة المنتج الثالث',
+          '50'
+        )}
+
+        ${field(
+          'bd_qty3',
+          'كمية المنتج الثالث',
+          '1',
+          '1'
+        )}
+
+      </div>
+
+
+      <div class="divider"></div>
+
+
+      <div class="grid2">
+
+        ${field(
+          'bd_original',
+          'إجمالي سعر المنتجات منفردة',
+          '400'
+        )}
+
+        ${field(
+          'bd_discount',
+          'خصم الباندل %',
+          '15'
+        )}
+
+        ${field(
+          'bd_bundle_price',
+          'سعر الباندل الفعلي',
+          '340'
+        )}
+
+        ${field(
+          'bd_shipping',
+          'الشحن على الباندل',
+          '40'
+        )}
+
+      </div>
+
+
+      <div class="glass-soft rounded-2xl p-4 mt-5">
+
+        <div class="font-bold text-sm">
+          🎯 الهدف
+        </div>
+
+        <p class="muted text-xs leading-7 mt-2">
+          تقدر تدخل سعر الباندل بنفسك، والأداة تقارن بين سعر
+          المنتجات منفردة وسعر العرض وتوضح التوفير والربح والهامش.
+        </p>
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   8. PLATFORM
+--------------------------------------------------------- */
+
+platform:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        🛒 أرباح المنصات وبوابات الدفع
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'pl_sale',
+          'سعر البيع',
+          '300'
+        )}
+
+        ${field(
+          'pl_discount',
+          'الخصم %',
+          '0'
+        )}
+
+        ${field(
+          'pl_product',
+          'تكلفة المنتج',
+          '120'
+        )}
+
+        ${field(
+          'pl_shipping',
+          'الشحن',
+          '40'
+        )}
+
+        ${field(
+          'pl_pack',
+          'التغليف',
+          '5'
+        )}
+
+        ${field(
+          'pl_platform',
+          'عمولة المنصة %',
+          '10'
+        )}
+
+        ${field(
+          'pl_payment',
+          'عمولة الدفع %',
+          '2.5'
+        )}
+
+        ${field(
+          'pl_fixed',
+          'رسوم ثابتة للطلب',
+          '0'
+        )}
+
+        ${field(
+          'pl_extra',
+          'رسوم أخرى',
+          '0'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+},
+
+
+/* ---------------------------------------------------------
+   9. CAMPAIGN
+--------------------------------------------------------- */
+
+campaign:function(){
+
+  return `
+
+    <div class="glass card p-5 md:p-6">
+
+      <div class="section-title">
+        📈 تحليل أرباح الحملة الإعلانية
+      </div>
+
+      <div class="grid2">
+
+        ${field(
+          'ca_spend',
+          'إجمالي الإنفاق الإعلاني',
+          '3000'
+        )}
+
+        ${field(
+          'ca_sales',
+          'إجمالي المبيعات',
+          '10000'
+        )}
+
+        ${field(
+          'ca_orders',
+          'عدد الطلبات',
+          '40',
+          '1'
+        )}
+
+        ${field(
+          'ca_product',
+          'متوسط تكلفة المنتج للطلب',
+          '100'
+        )}
+
+        ${field(
+          'ca_shipping',
+          'متوسط الشحن للطلب',
+          '40'
+        )}
+
+        ${field(
+          'ca_pack',
+          'متوسط التغليف للطلب',
+          '5'
+        )}
+
+        ${field(
+          'ca_fee',
+          'العمولات كنسبة من المبيعات %',
+          '5'
+        )}
+
+        ${field(
+          'ca_rto',
+          'نسبة RTO %',
+          '0'
+        )}
+
+      </div>
+
+      ${actionButton()}
+
+    </div>
+
+  `;
+
+}
+
+};
+
+
+/* =========================================================
+   OPEN CALCULATOR
+========================================================= */
+
+function openCalc(id){
+
+  if(id === 'bulk'){
+
+    showPage('bulk');
+
+    return;
+  }
+
+  if(id === 'pdf'){
+
+    openPdfReport();
+
+    return;
+  }
+
+  const calc =
+    CALCS.find(function(item){
+      return item.id === id;
+    });
+
+  if(!calc){
+    return;
+  }
+
+  currentCalc = id;
+
+  el('calcTitle').textContent =
+    `${calc.icon} ${calc.title}`;
+
+  el('calcDesc').textContent =
+    calc.desc;
+
+  el('calcBody').innerHTML =
+    templates[id]();
+
+  showPage('calculator');
+
+}
+
+
+/* =========================================================
+   RUN CURRENT CALCULATOR
+========================================================= */
+
+function runCurrentCalculator(){
+
+  if(!currentCalc){
+    return;
+  }
+
+  if(!consumeTrial()){
+    return;
+  }
+
+  let result = null;
+
+  switch(currentCalc){
+
+    case 'pricing':
+      result = calculatePricing();
+      break;
+
+    case 'rto':
+      result = calculateRTO();
+      break;
+
+    case 'cpa':
+      result = calculateCPA();
+      break;
+
+    case 'roas':
+      result = calculateROAS();
+      break;
+
+    case 'break':
+      result = calculateBreakEven();
+      break;
+
+    case 'overhead':
+      result = calculateOverhead();
+      break;
+
+    case 'bundle':
+      result = calculateBundle();
+      break;
+
+    case 'platform':
+      result = calculatePlatform();
+      break;
+
+    case 'campaign':
+      result = calculateCampaign();
+      break;
+
+  }
+
+  if(!result){
+    return;
+  }
+
+  lastReport = result;
+
+  saveHistory(result);
+
+  renderResult(result);
+
+  toast('تم الحساب بنجاح ✓');
+
+}
+
+
+/* =========================================================
+   1. PRICING CALCULATION
+========================================================= */
+
+function calculatePricing(){
+
+  const cost =
+    val('p_cost');
+
+  const pack =
+    val('p_pack');
+
+  const shipping =
+    val('p_shipping');
+
+  const extra =
+    val('p_extra');
+
+  const ads =
+    val('p_ads');
+
+  const platformPct =
+    val('p_platform_fee');
+
+  const paymentPct =
+    val('p_payment_fee');
+
+  const fixedFee =
+    val('p_fixed_fee');
+
+  const discount =
+    Math.min(
+      100,
+      Math.max(0,val('p_discount'))
+    );
+
+  const targetMargin =
+    Math.min(
+      99,
+      Math.max(0,val('p_target_margin'))
+    );
+
+  const salePrice =
+    val('p_sale_price');
+
+
+  const fixedCosts =
+    cost +
+    pack +
+    shipping +
+    extra +
+    ads +
+    fixedFee;
+
+
+  /*
+    العمولة تعتمد على السعر النهائي بعد الخصم.
+  */
+
+  const discountFactor =
+    1 - discount / 100;
+
+
+  /*
+    السعر الصافي المطلوب بعد الخصم لتحقيق الهامش.
+    المعادلة:
+    P - Fixed - P*Fees = P*Margin
+
+    P = Fixed / (1 - Fees - Margin)
+  */
+
+  const feeRate =
+    (platformPct + paymentPct) / 100;
+
+  const denominator =
+    1 -
+    feeRate -
+    targetMargin / 100;
+
+
+  const recommendedNetPrice =
+    denominator > 0
+      ? fixedCosts / denominator
+      : 0;
+
+
+  const recommendedListPrice =
+    discountFactor > 0
+      ? recommendedNetPrice / discountFactor
+      : 0;
+
+
+  const netSale =
+    salePrice * discountFactor;
+
+
+  const percentageFees =
+    netSale * feeRate;
+
+
+  const totalCost =
+    cost +
+    pack +
+    shipping +
+    extra +
+    ads +
+    fixedFee +
+    percentageFees;
+
+
+  const profit =
+    netSale -
+    totalCost;
+
+
+  const margin =
+    netSale > 0
+      ? (profit / netSale) * 100
+      : 0;
+
+
+  const breakEvenPrice =
+    feeRate < 1
+      ? fixedCosts / (1 - feeRate)
+      : 0;
+
+
+  let insight = '';
+
+  if(profit < 0){
+
+    insight =
+      'السعر الحالي يؤدي إلى خسارة بعد احتساب الخصم والعمولات والإعلان وباقي التكاليف.';
+
+  }else if(margin < targetMargin){
+
+    insight =
+      `البيع الحالي مربح، لكنه أقل من هامش الربح المستهدف ${pct(targetMargin)}.`;
+
+  }else{
+
+    insight =
+      'السعر الحالي يحقق أو يتجاوز هامش الربح المستهدف وفق البيانات المدخلة.';
+
+  }
+
+
+  return {
+
+    type:'pricing',
+
+    title:'تسعير المنتجات',
+
+    icon:'🧮',
+
+    inputs:{
+      cost,
+      pack,
+      shipping,
+      extra,
+      ads,
+      platformPct,
+      paymentPct,
+      fixedFee,
+      discount,
+      targetMargin,
+      salePrice
+    },
+
+    metrics:[
+
+      {
+        label:'التكلفة الثابتة قبل العمولة',
+        value:money(fixedCosts)
+      },
+
+      {
+        label:'سعر البيع بعد الخصم',
+        value:money(netSale)
+      },
+
+      {
+        label:'الربح الصافي',
+        value:money(profit),
+        status:profit >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'هامش الربح',
+        value:pct(margin),
+        status:margin >= targetMargin ? 'success' : 'danger'
+      },
+
+      {
+        label:'سعر التعادل قبل الخصم',
+        value:money(breakEvenPrice)
+      },
+
+      {
+        label:'السعر المقترح بعد الخصم',
+        value:money(recommendedNetPrice)
+      },
+
+      {
+        label:'سعر القائمة المقترح قبل الخصم',
+        value:money(recommendedListPrice)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   2. RTO CALCULATION
+========================================================= */
+
+function calculateRTO(){
+
+  const orders =
+    val('r_orders');
+
+  const rtoPct =
+    Math.min(
+      100,
+      Math.max(0,val('r_rto'))
+    );
+
+  const aov =
+    val('r_aov');
+
+  const product =
+    val('r_product');
+
+  const deliveryShip =
+    val('r_delivery_ship');
+
+  const returnShip =
+    val('r_return_ship');
+
+  const pack =
+    val('r_pack');
+
+  const ads =
+    val('r_ads');
+
+
+  const rtoRate =
+    rtoPct / 100;
+
+
+  const rtoOrders =
+    orders * rtoRate;
+
+  const deliveredOrders =
+    orders - rtoOrders;
+
+
+  /*
+    في النموذج نفترض:
+    المنتج في طلب RTO يعود للمخزون.
+    لكن المتجر يتحمل الشحن والتغليف والإعلان وشحن المرتجع.
+
+    لذلك تكلفة المنتج تخص الطلبات المسلمة فقط.
+  */
+
+  const revenue =
+    deliveredOrders * aov;
+
+
+  const deliveredCosts =
+    deliveredOrders *
+    (
+      product +
+      deliveryShip +
+      pack +
+      ads
+    );
+
+
+  const returnedCosts =
+    rtoOrders *
+    (
+      deliveryShip +
+      returnShip +
+      pack +
+      ads
+    );
+
+
+  const totalCost =
+    deliveredCosts +
+    returnedCosts;
+
+
+  const profit =
+    revenue -
+    totalCost;
+
+
+  const effectiveCostPerOriginalOrder =
+    orders > 0
+      ? totalCost / orders
+      : 0;
+
+
+  const contributionPerDeliveredOrder =
+    aov -
+    (
+      product +
+      deliveryShip +
+      pack +
+      ads
+    );
+
+
+  /*
+    أقصى RTO تقريبي قبل أن يصبح النموذج خاسرًا:
+    الربح =
+    delivered*(revenue - deliveredCost)
+    - returned*(return costs)
+
+    delivered = O*(1-r)
+    returned = O*r
+
+    مساهمة الطلب المسلم = C
+    تكلفة طلب RTO = R
+
+    C*(1-r) - R*r = 0
+
+    r = C/(C+R)
+  */
+
+  const rtoOrderCost =
+    deliveryShip +
+    returnShip +
+    pack +
+    ads;
+
+  const lossPoint =
+    (
+      contributionPerDeliveredOrder > 0 &&
+      rtoOrderCost >= 0
+    )
+      ? (
+          contributionPerDeliveredOrder /
+          (
+            contributionPerDeliveredOrder +
+            rtoOrderCost
+          )
+        ) * 100
+      : 0;
+
+
+  let insight = '';
+
+  if(profit < 0){
+
+    insight =
+      'النموذج الحالي خاسر. راجع تكلفة الشحن أو الإعلان أو نسبة المرتجعات أو سعر الطلب.';
+
+  }else if(rtoPct >= lossPoint && lossPoint > 0){
+
+    insight =
+      `نسبة RTO الحالية وصلت لمنطقة الخطر. نقطة الخطر الحسابية تقريبًا عند ${pct(lossPoint)}.`;
+
+  }else{
+
+    insight =
+      `وفق المدخلات الحالية، كل طلب مسلم يساهم بحوالي ${money(contributionPerDeliveredOrder)} قبل تأثير المصاريف الثابتة.`;
+
+  }
+
+
+  return {
+
+    type:'rto',
+
+    title:'رادار المرتجعات RTO',
+
+    icon:'↩️',
+
+    metrics:[
+
+      {
+        label:'الطلبات المسلمة',
+        value:number(deliveredOrders)
+      },
+
+      {
+        label:'طلبات RTO',
+        value:number(rtoOrders)
+      },
+
+      {
+        label:'الإيرادات من الطلبات المسلمة',
+        value:money(revenue)
+      },
+
+      {
+        label:'إجمالي تكلفة التشغيل',
+        value:money(totalCost)
+      },
+
+      {
+        label:'الربح قبل المصاريف الثابتة',
+        value:money(profit),
+        status:profit >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'التكلفة الفعلية لكل طلب أصلي',
+        value:money(effectiveCostPerOriginalOrder)
+      },
+
+      {
+        label:'نقطة خطر RTO التقريبية',
+        value:pct(lossPoint)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   3. CPA
+========================================================= */
+
+function calculateCPA(){
+
+  const sale =
+    val('c_sale');
+
+  const discount =
+    Math.min(
+      100,
+      Math.max(0,val('c_discount'))
+    );
+
+  const product =
+    val('c_product');
+
+  const pack =
+    val('c_pack');
+
+  const shipping =
+    val('c_shipping');
+
+  const extra =
+    val('c_extra');
+
+  const platformPct =
+    val('c_platform');
+
+  const paymentPct =
+    val('c_payment');
+
+  const fixed =
+    val('c_fixed');
+
+  const targetProfit =
+    val('c_target_profit');
+
+
+  const netSale =
+    sale * (
+      1 -
+      discount / 100
+    );
+
+
+  const fees =
+    netSale *
+    (
+      platformPct +
+      paymentPct
+    ) / 100;
+
+
+  const nonAdCost =
+    product +
+    pack +
+    shipping +
+    extra +
+    fixed +
+    fees;
+
+
+  const maxCPA =
+    netSale -
+    nonAdCost -
+    targetProfit;
+
+
+  const maxCPAForZeroProfit =
+    netSale -
+    nonAdCost;
+
+
+  let insight = '';
+
+  if(maxCPA < 0){
+
+    insight =
+      'لا يوجد CPA آمن مع البيانات الحالية لأن السعر الصافي لا يغطي التكاليف والربح المستهدف.';
+
+  }else{
+
+    insight =
+      `يمكنك دفع حتى ${money(maxCPA)} تقريبًا للإعلان لكل طلب مع الحفاظ على الربح المستهدف المدخل.`;
+
+  }
+
+
+  return {
+
+    type:'cpa',
+
+    title:'حد أمان CPA',
+
+    icon:'🎯',
+
+    metrics:[
+
+      {
+        label:'سعر البيع بعد الخصم',
+        value:money(netSale)
+      },
+
+      {
+        label:'إجمالي التكلفة قبل الإعلان',
+        value:money(nonAdCost)
+      },
+
+      {
+        label:'أقصى CPA مع الربح المستهدف',
+        value:money(maxCPA),
+        status:maxCPA >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'CPA عند نقطة التعادل',
+        value:money(maxCPAForZeroProfit)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   4. ROAS
+========================================================= */
+
+function calculateROAS(){
+
+  const revenue =
+    val('ro_revenue');
+
+  const product =
+    val('ro_product');
+
+  const shipping =
+    val('ro_shipping');
+
+  const pack =
+    val('ro_pack');
+
+  const platformPct =
+    val('ro_platform');
+
+  const paymentPct =
+    val('ro_payment');
+
+  const fixed =
+    val('ro_fixed');
+
+  const targetProfit =
+    val('ro_target');
+
+
+  const percentageFees =
+    revenue *
+    (
+      platformPct +
+      paymentPct
+    ) / 100;
+
+
+  const nonAdCost =
+    product +
+    shipping +
+    pack +
+    fixed +
+    percentageFees;
+
+
+  const maxAdSpend =
+    revenue -
+    nonAdCost -
+    targetProfit;
+
+
+  const targetROAS =
+    maxAdSpend > 0
+      ? revenue / maxAdSpend
+      : 0;
+
+
+  const breakEvenROAS =
+    (
+      revenue -
+      nonAdCost
+    ) > 0
+      ? revenue /
+        (
+          revenue -
+          nonAdCost
+        )
+      : 0;
+
+
+  let insight = '';
+
+  if(maxAdSpend <= 0){
+
+    insight =
+      'السعر والتكاليف الحالية لا تسمح بإنفاق إعلاني مع الحفاظ على الربح المستهدف.';
+
+  }else{
+
+    insight =
+      `لتحقيق الربح المطلوب، يجب أن يكون ROAS حوالي ${targetROAS.toFixed(2)}x أو أعلى، وفق الافتراضات المدخلة.`;
+
+  }
+
+
+  return {
+
+    type:'roas',
+
+    title:'ROAS المستهدف',
+
+    icon:'📣',
+
+    metrics:[
+
+      {
+        label:'التكلفة قبل الإعلان',
+        value:money(nonAdCost)
+      },
+
+      {
+        label:'أقصى إنفاق إعلاني للطلب',
+        value:money(maxAdSpend),
+        status:maxAdSpend >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'ROAS المطلوب',
+        value:
+          targetROAS > 0
+            ? targetROAS.toFixed(2)+'x'
+            : 'غير ممكن'
+      },
+
+      {
+        label:'ROAS عند نقطة التعادل',
+        value:
+          breakEvenROAS > 0
+            ? breakEvenROAS.toFixed(2)+'x'
+            : 'غير ممكن'
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   5. BREAK EVEN
+========================================================= */
+
+function calculateBreakEven(){
+
+  const fixed =
+    val('b_fixed');
+
+  const price =
+    val('b_price');
+
+  const variable =
+    val('b_variable');
+
+  const targetProfit =
+    val('b_target_profit');
+
+
+  const contribution =
+    price -
+    variable;
+
+
+  const breakEvenOrders =
+    contribution > 0
+      ? fixed / contribution
+      : 0;
+
+
+  const targetOrders =
+    contribution > 0
+      ? (
+          fixed +
+          targetProfit
+        ) / contribution
+      : 0;
+
+
+  const breakEvenRevenue =
+    breakEvenOrders *
+    price;
+
+
+  const targetRevenue =
+    targetOrders *
+    price;
+
+
+  const contributionMargin =
+    price > 0
+      ? (
+          contribution /
+          price
+        ) * 100
+      : 0;
+
+
+  let insight = '';
+
+  if(contribution <= 0){
+
+    insight =
+      'لا توجد نقطة تعادل لأن مساهمة الطلب صفر أو سالبة. يجب رفع السعر أو تقليل التكلفة المتغيرة.';
+
+  }else{
+
+    insight =
+      `تحتاج إلى بيع حوالي ${Math.ceil(breakEvenOrders)} طلب لتغطية المصاريف الثابتة.`;
+
+  }
+
+
+  return {
+
+    type:'break',
+
+    title:'نقطة التعادل',
+
+    icon:'⚖️',
+
+    metrics:[
+
+      {
+        label:'مساهمة الطلب',
+        value:money(contribution),
+        status:contribution > 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'هامش المساهمة',
+        value:pct(contributionMargin)
+      },
+
+      {
+        label:'طلبات نقطة التعادل',
+        value:number(breakEvenOrders)
+      },
+
+      {
+        label:'مبيعات نقطة التعادل',
+        value:money(breakEvenRevenue)
+      },
+
+      {
+        label:'طلبات تحقيق الربح المستهدف',
+        value:number(targetOrders)
+      },
+
+      {
+        label:'المبيعات المطلوبة',
+        value:money(targetRevenue)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   6. OVERHEAD
+========================================================= */
+
+function calculateOverhead(){
+
+  const rent =
+    val('o_rent');
+
+  const salaries =
+    val('o_salaries');
+
+  const subscriptions =
+    val('o_subscriptions');
+
+  const other =
+    val('o_other');
+
+  const units =
+    val('o_units');
+
+  const unitCost =
+    val('o_unit_cost');
+
+  const targetMargin =
+    Math.min(
+      99,
+      Math.max(0,val('o_target_margin'))
+    );
+
+
+  const totalFixed =
+    rent +
+    salaries +
+    subscriptions +
+    other;
+
+
+  const fixedPerUnit =
+    units > 0
+      ? totalFixed / units
+      : 0;
+
+
+  const fullyLoadedCost =
+    unitCost +
+    fixedPerUnit;
+
+
+  const requiredPrice =
+    (
+      1 -
+      targetMargin / 100
+    ) > 0
+      ? fullyLoadedCost /
+        (
+          1 -
+          targetMargin / 100
+        )
+      : 0;
+
+
+  let insight = '';
+
+  if(units <= 0){
+
+    insight =
+      'أدخل عدد الوحدات المتوقع بيعها شهريًا لتوزيع المصاريف.';
+
+  }else{
+
+    insight =
+      `عند بيع ${number(units)} وحدة شهريًا، كل وحدة تتحمل ${money(fixedPerUnit)} من المصاريف الثابتة.`;
+
+  }
+
+
+  return {
+
+    type:'overhead',
+
+    title:'موزع المصاريف الثابتة',
+
+    icon:'🏢',
+
+    metrics:[
+
+      {
+        label:'إجمالي المصاريف الثابتة',
+        value:money(totalFixed)
+      },
+
+      {
+        label:'نصيب الوحدة من المصاريف',
+        value:money(fixedPerUnit)
+      },
+
+      {
+        label:'التكلفة الكاملة للوحدة',
+        value:money(fullyLoadedCost)
+      },
+
+      {
+        label:`سعر بيع لهامش ${pct(targetMargin)}`,
+        value:money(requiredPrice)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   7. BUNDLE
+========================================================= */
+
+function calculateBundle(){
+
+  const cost1 =
+    val('bd_cost1');
+
+  const qty1 =
+    Math.max(1,val('bd_qty1'));
+
+  const cost2 =
+    val('bd_cost2');
+
+  const qty2 =
+    Math.max(0,val('bd_qty2'));
+
+  const cost3 =
+    val('bd_cost3');
+
+  const qty3 =
+    Math.max(0,val('bd_qty3'));
+
+  const original =
+    val('bd_original');
+
+  const discount =
+    Math.min(
+      100,
+      Math.max(0,val('bd_discount'))
+    );
+
+  const bundlePriceInput =
+    val('bd_bundle_price');
+
+  const shipping =
+    val('bd_shipping');
+
+
+  const productCost =
+    (
+      cost1 * qty1
+    ) +
+    (
+      cost2 * qty2
+    ) +
+    (
+      cost3 * qty3
+    );
+
+
+  const calculatedOfferPrice =
+    original *
+    (
+      1 -
+      discount / 100
+    );
+
+
+  const bundlePrice =
+    bundlePriceInput > 0
+      ? bundlePriceInput
+      : calculatedOfferPrice;
+
+
+  const savings =
+    original -
+    bundlePrice;
+
+
+  const profit =
+    bundlePrice -
+    productCost -
+    shipping;
+
+
+  const margin =
+    bundlePrice > 0
+      ? (
+          profit /
+          bundlePrice
+        ) * 100
+      : 0;
+
+
+  const discountVsOriginal =
+    original > 0
+      ? (
+          savings /
+          original
+        ) * 100
+      : 0;
+
+
+  let insight = '';
+
+  if(profit < 0){
+
+    insight =
+      'سعر الباندل الحالي يسبب خسارة بعد احتساب تكلفة المنتجات والشحن.';
+
+  }else{
+
+    insight =
+      `العميل يوفر ${money(savings)} تقريبًا مقارنة بسعر المنتجات منفردة، بينما ربح الباندل ${money(profit)}.`;
+
+  }
+
+
+  return {
+
+    type:'bundle',
+
+    title:'العروض والباندل',
+
+    icon:'🎁',
+
+    metrics:[
+
+      {
+        label:'إجمالي تكلفة المنتجات',
+        value:money(productCost)
+      },
+
+      {
+        label:'سعر الباندل',
+        value:money(bundlePrice)
+      },
+
+      {
+        label:'توفير العميل',
+        value:money(savings)
+      },
+
+      {
+        label:'نسبة التوفير',
+        value:pct(discountVsOriginal)
+      },
+
+      {
+        label:'ربح الباندل',
+        value:money(profit),
+        status:profit >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'هامش ربح الباندل',
+        value:pct(margin),
+        status:margin >= 0 ? 'success' : 'danger'
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   8. PLATFORM
+========================================================= */
+
+function calculatePlatform(){
+
+  const sale =
+    val('pl_sale');
+
+  const discount =
+    Math.min(
+      100,
+      Math.max(0,val('pl_discount'))
+    );
+
+  const product =
+    val('pl_product');
+
+  const shipping =
+    val('pl_shipping');
+
+  const pack =
+    val('pl_pack');
+
+  const platformPct =
+    val('pl_platform');
+
+  const paymentPct =
+    val('pl_payment');
+
+  const fixed =
+    val('pl_fixed');
+
+  const extra =
+    val('pl_extra');
+
+
+  const netSale =
+    sale *
+    (
+      1 -
+      discount / 100
+    );
+
+
+  const platformFee =
+    netSale *
+    platformPct /
+    100;
+
+
+  const paymentFee =
+    netSale *
+    paymentPct /
+    100;
+
+
+  const totalFees =
+    platformFee +
+    paymentFee +
+    fixed +
+    extra;
+
+
+  const totalCost =
+    product +
+    shipping +
+    pack +
+    totalFees;
+
+
+  const profit =
+    netSale -
+    totalCost;
+
+
+  const margin =
+    netSale > 0
+      ? profit /
+        netSale *
+        100
+      : 0;
+
+
+  let insight = '';
+
+  if(profit < 0){
+
+    insight =
+      'الطلب خاسر بعد عمولة المنصة والدفع والشحن والتكلفة.';
+
+  }else{
+
+    insight =
+      `إجمالي الرسوم والعمولات يساوي ${money(totalFees)} من الطلب.`;
+
+  }
+
+
+  return {
+
+    type:'platform',
+
+    title:'أرباح المنصات',
+
+    icon:'🛒',
+
+    metrics:[
+
+      {
+        label:'صافي البيع بعد الخصم',
+        value:money(netSale)
+      },
+
+      {
+        label:'عمولة المنصة',
+        value:money(platformFee)
+      },
+
+      {
+        label:'عمولة الدفع',
+        value:money(paymentFee)
+      },
+
+      {
+        label:'إجمالي الرسوم',
+        value:money(totalFees)
+      },
+
+      {
+        label:'إجمالي التكلفة',
+        value:money(totalCost)
+      },
+
+      {
+        label:'صافي الربح',
+        value:money(profit),
+        status:profit >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'هامش الربح',
+        value:pct(margin)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   9. CAMPAIGN
+========================================================= */
+
+function calculateCampaign(){
+
+  const spend =
+    val('ca_spend');
+
+  const sales =
+    val('ca_sales');
+
+  const orders =
+    val('ca_orders');
+
+  const product =
+    val('ca_product');
+
+  const shipping =
+    val('ca_shipping');
+
+  const pack =
+    val('ca_pack');
+
+  const feePct =
+    val('ca_fee');
+
+  const rtoPct =
+    Math.min(
+      100,
+      Math.max(0,val('ca_rto'))
+    );
+
+
+  const roas =
+    spend > 0
+      ? sales / spend
+      : 0;
+
+
+  const cpa =
+    orders > 0
+      ? spend / orders
+      : 0;
+
+
+  const rtoOrders =
+    orders *
+    rtoPct /
+    100;
+
+
+  const deliveredOrders =
+    orders -
+    rtoOrders;
+
+
+  const fees =
+    sales *
+    feePct /
+    100;
+
+
+  /*
+    بما أن متوسط تكلفة المنتج محسوب للطلبات المسلمة.
+  */
+
+  const productCosts =
+    deliveredOrders *
+    product;
+
+
+  const shippingCosts =
+    orders *
+    shipping;
+
+
+  const packagingCosts =
+    orders *
+    pack;
+
+
+  const totalCosts =
+    spend +
+    fees +
+    productCosts +
+    shippingCosts +
+    packagingCosts;
+
+
+  const profit =
+    sales -
+    totalCosts;
+
+
+  const profitMargin =
+    sales > 0
+      ? profit /
+        sales *
+        100
+      : 0;
+
+
+  let insight = '';
+
+  if(profit < 0){
+
+    insight =
+      'الحملة خاسرة وفق الأرقام المدخلة. ارتفاع CPA أو تكلفة المنتج أو الشحن أو العمولات قد يكون السبب.';
+
+  }else{
+
+    insight =
+      `الحملة تحقق ${money(profit)} قبل المصاريف الثابتة، مع ROAS قدره ${roas.toFixed(2)}x.`;
+
+  }
+
+
+  return {
+
+    type:'campaign',
+
+    title:'أرباح الحملات الإعلانية',
+
+    icon:'📈',
+
+    metrics:[
+
+      {
+        label:'إجمالي المبيعات',
+        value:money(sales)
+      },
+
+      {
+        label:'ROAS',
+        value:roas.toFixed(2)+'x'
+      },
+
+      {
+        label:'CPA',
+        value:money(cpa)
+      },
+
+      {
+        label:'طلبات مسلمة تقديريًا',
+        value:number(deliveredOrders)
+      },
+
+      {
+        label:'إجمالي التكاليف',
+        value:money(totalCosts)
+      },
+
+      {
+        label:'صافي ربح الحملة',
+        value:money(profit),
+        status:profit >= 0 ? 'success' : 'danger'
+      },
+
+      {
+        label:'هامش الحملة',
+        value:pct(profitMargin)
+      }
+
+    ],
+
+    insight
+
+  };
+
+}
+
+
+/* =========================================================
+   RENDER RESULT
+========================================================= */
+
+function renderResult(result){
+
+  const output =
+    el('out');
+
+  if(!output){
+    return;
+  }
+
+  const metrics =
+    result.metrics || [];
+
+
+  const html =
+    `
+      <div class="flex items-center justify-between gap-3 mb-4">
+
+        <div>
+          <div class="text-lg font-black">
+            ${escapeHtml(result.icon)} ${escapeHtml(result.title)}
+          </div>
+
+          <div class="muted text-xs mt-1">
+            نتيجة آخر عملية حساب
+          </div>
+        </div>
+
+        <span class="badge badge-green">
+          ✓ مكتملة
+        </span>
+
+      </div>
+
+
+      <div class="metric-grid">
+
+        ${metrics.map(function(item){
+
+          let cls = '';
+
+          if(item.status === 'success'){
+            cls = '';
+          }
+
+          if(item.status === 'danger'){
+            cls = 'warning-box';
+          }
+
+          return `
+            <div class="result ${cls}">
+
+              <div class="metric-label">
+                ${escapeHtml(item.label)}
+              </div>
+
+              <div class="metric ${
+                item.status === 'danger'
+                  ? 'danger'
+                  : item.status === 'success'
+                    ? 'success'
+                    : ''
+              }">
+                ${item.value}
+              </div>
+
+            </div>
+          `;
+
+        }).join('')}
+
+      </div>
+
+
+      ${
+        result.insight
+        ? insightBox(
+            '💡 قراءة النتيجة',
+            result.insight,
+            result.metrics.some(
+              x => x.status === 'danger'
+            )
+              ? 'warning'
+              : 'normal'
+          )
+        : ''
+      }
+
+
+      <div class="flex flex-wrap gap-2 mt-4">
+
+        <button class="btn btn-secondary"
+                onclick="openPdfReport()">
+          📄 التقرير
+        </button>
+
+        <button class="btn btn-secondary"
+                onclick="showPage('history')">
+          🕘 السجل
+        </button>
+
+      </div>
+    `;
+
+
+  output.innerHTML =
+    html;
+
+  updateHomeStats();
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function getHistory(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(HISTORY_KEY) || '[]'
+    );
+
+  }catch{
+
+    return [];
+
+  }
+
+}
+
+
+function saveHistory(result){
+
+  const history =
+    getHistory();
+
+  const entry = {
+
+    id:
+      Date.now() +
+      '-' +
+      Math.random()
+        .toString(36)
+        .slice(2,8),
+
+    createdAt:
+      new Date().toISOString(),
+
+    ...result
+
+  };
+
+
+  history.unshift(entry);
+
+
+  /*
+    نحافظ على آخر 100 نتيجة فقط.
+  */
+
+  const trimmed =
+    history.slice(0,100);
+
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(trimmed)
+  );
+
+
+  updateHomeStats();
+
+}
+
+
+function clearHistory(){
+
+  openConfirm(
+    'مسح سجل العمليات',
+    'هل أنت متأكد أنك تريد حذف كل النتائج المحفوظة على هذا الجهاز؟',
+    function(){
+
+      localStorage.removeItem(
+        HISTORY_KEY
+      );
+
+      renderHistory();
+
+      updateHomeStats();
+
+      toast('تم مسح السجل');
+
+    }
+  );
+
+}
+
+
+function renderHistory(){
+
+  const container =
+    el('historyList');
+
+  const history =
+    getHistory();
+
+
+  if(!history.length){
+
+    container.innerHTML = `
+
+      <div class="glass card p-8 text-center">
+
+        <div class="text-5xl">
+          🕘
+        </div>
+
+        <h3 class="font-black text-xl mt-4">
+          مفيش عمليات محفوظة
+        </h3>
+
+        <p class="muted text-sm mt-2">
+          أول ما تعمل حساب ناجح، النتيجة هتظهر هنا.
+        </p>
+
+        <button
+          class="btn btn-primary mt-5"
+          onclick="openCalc('pricing')"
+        >
+          🧮 ابدأ التسعير
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    history.map(function(item){
+
+      const date =
+        new Date(
+          item.createdAt
+        ).toLocaleString(
+          'ar-EG'
+        );
+
+
+      const mainMetric =
+        item.metrics &&
+        item.metrics.length
+          ? item.metrics[
+              Math.min(
+                2,
+                item.metrics.length - 1
+              )
+            ]
+          : null;
+
+
+      return `
+
+        <div class="glass card p-5 mb-3">
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="font-black">
+                ${escapeHtml(item.icon || '🧮')}
+                ${escapeHtml(item.title || '')}
+              </div>
+
+              <div class="muted text-xs mt-1">
+                ${escapeHtml(date)}
+              </div>
+
+            </div>
+
+            ${
+              mainMetric
+              ? `
+                <div class="text-left">
+
+                  <div class="muted text-xs">
+                    ${escapeHtml(mainMetric.label)}
+                  </div>
+
+                  <div class="font-black ${
+                    mainMetric.status === 'danger'
+                      ? 'danger'
+                      : 'success'
+                  }">
+                    ${mainMetric.value}
+                  </div>
+
+                </div>
+              `
+              : ''
             }
+
+          </div>
+
+
+          <div class="grid2 mt-4">
+
+            ${(item.metrics || [])
+              .slice(0,4)
+              .map(function(metric){
+
+                return `
+
+                  <div class="glass-soft rounded-xl p-3">
+
+                    <div class="muted text-[11px]">
+                      ${escapeHtml(metric.label)}
+                    </div>
+
+                    <div class="font-black text-sm mt-1 ${
+                      metric.status === 'danger'
+                        ? 'danger'
+                        : ''
+                    }">
+                      ${metric.value}
+                    </div>
+
+                  </div>
+
+                `;
+
+              }).join('')}
+
+          </div>
+
+
+          <div class="flex flex-wrap gap-2 mt-4">
+
+            <button
+              class="btn btn-secondary text-sm"
+              onclick='printSpecificReport(${JSON.stringify(item).replace(/'/g,"&#039;")})'
+            >
+              📄 تقرير
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join('');
+
+}
+
+
+/* =========================================================
+   PDF / PRINT REPORT
+========================================================= */
+
+function openPdfReport(){
+
+  if(!lastReport){
+
+    const history =
+      getHistory();
+
+    if(history.length){
+      lastReport =
+        history[0];
+    }
+
+  }
+
+
+  if(!lastReport){
+
+    toast(
+      'اعمل عملية حساب أولًا عشان نجهز التقرير.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  preparePrintArea(
+    lastReport
+  );
+
+
+  window.print();
+
+}
+
+
+function printSpecificReport(result){
+
+  preparePrintArea(
+    result
+  );
+
+  window.print();
+
+}
+
+
+function preparePrintArea(result){
+
+  const area =
+    el('printArea');
+
+
+  const date =
+    new Date(
+      result.createdAt || Date.now()
+    ).toLocaleString(
+      'ar-EG'
+    );
+
+
+  area.innerHTML = `
+
+    <div class="print-page">
+
+      <div class="print-title">
+        محترف التسعير Pro 🧮
+      </div>
+
+      <div style="margin-top:8px;color:#555;">
+        تقرير مالي
+      </div>
+
+      <div style="margin-top:5px;color:#777;font-size:12px;">
+        ${escapeHtml(date)}
+      </div>
+
+
+      <div class="print-card">
+
+        <h2 style="margin:0 0 15px;font-size:20px;">
+          ${escapeHtml(result.icon || '')}
+          ${escapeHtml(result.title || 'تقرير')}
+        </h2>
+
+
+        <div class="print-grid">
+
+          ${(result.metrics || [])
+            .map(function(item){
+
+              return `
+
+                <div class="print-metric">
+
+                  <div class="print-label">
+                    ${escapeHtml(item.label)}
+                  </div>
+
+                  <div class="print-value">
+                    ${item.value}
+                  </div>
+
+                </div>
+
+              `;
+
+            }).join('')}
+
+        </div>
+
+      </div>
+
+
+      ${
+        result.insight
+        ? `
+          <div class="print-card">
+
+            <strong>
+              قراءة النتيجة
+            </strong>
+
+            <p style="line-height:2;margin-bottom:0;">
+              ${escapeHtml(result.insight)}
+            </p>
+
+          </div>
+        `
+        : ''
+      }
+
+
+      <div class="print-card">
+
+        <div style="font-weight:bold;">
+          ملاحظة
+        </div>
+
+        <p style="line-height:2;margin-bottom:0;">
+          التقرير مبني على البيانات التي تم إدخالها داخل الأداة،
+          ويجب مراجعة الافتراضات والتكاليف الفعلية قبل اتخاذ
+          قرارات مالية نهائية.
+        </p>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   CONFIRM
+========================================================= */
+
+function openConfirm(
+  title,
+  text,
+  callback
+){
+
+  el('confirmTitle').textContent =
+    title;
+
+  el('confirmText').textContent =
+    text;
+
+  confirmCallback =
+    callback;
+
+  el('confirmBtn').onclick =
+    function(){
+
+      if(typeof confirmCallback === 'function'){
+        confirmCallback();
+      }
+
+      closeConfirm();
+
+    };
+
+  el('confirmModal')
+    .classList.remove('hidden');
+
+}
+
+
+function closeConfirm(){
+
+  el('confirmModal')
+    .classList.add('hidden');
+
+  confirmCallback = null;
+
+}
+
+
+/* =========================================================
+   CSV HELPERS
+========================================================= */
+
+function normalizeKey(key){
+
+  return String(key || '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g,' ')
+    .replace(/[_-]/g,' ');
+
+}
+
+
+function findColumn(
+  row,
+  aliases
+){
+
+  const keys =
+    Object.keys(row);
+
+
+  for(const alias of aliases){
+
+    const normalizedAlias =
+      normalizeKey(alias);
+
+
+    const exact =
+      keys.find(function(key){
+
+        return normalizeKey(key) ===
+          normalizedAlias;
+
+      });
+
+
+    if(exact){
+      return exact;
+    }
+
+  }
+
+
+  /*
+    البحث الجزئي
+  */
+
+  for(const alias of aliases){
+
+    const normalizedAlias =
+      normalizeKey(alias);
+
+
+    const partial =
+      keys.find(function(key){
+
+        return normalizeKey(key)
+          .includes(normalizedAlias);
+
+      });
+
+
+    if(partial){
+      return partial;
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+function rowNumber(
+  row,
+  aliases
+){
+
+  const key =
+    findColumn(
+      row,
+      aliases
+    );
+
+  return key
+    ? n(row[key])
+    : 0;
+
+}
+
+
+function rowText(
+  row,
+  aliases,
+  fallback=''
+){
+
+  const key =
+    findColumn(
+      row,
+      aliases
+    );
+
+  if(!key){
+    return fallback;
+  }
+
+  return String(
+    row[key] ?? fallback
+  ).trim();
+
+}
+
+
+/* =========================================================
+   CSV ANALYSIS
+========================================================= */
+
+function runCSVAnalysis(){
+
+  const file =
+    el('csvFile').files[0];
+
+
+  if(!file){
+
+    toast(
+      'اختار ملف CSV الأول.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  if(
+    !isActivated() &&
+    trialUses() >= TRIAL_LIMIT
+  ){
+
+    openActivation(
+      'انتهت التجربتان المجانيتان. فعّل الأداة لتحليل ملفات CSV.'
+    );
+
+    return;
+  }
+
+
+  Papa.parse(
+    file,
+    {
+      header:true,
+      skipEmptyLines:true,
+
+      complete:function(results){
+
+        if(
+          !results.data ||
+          !results.data.length
+        ){
+
+          toast(
+            'الملف لا يحتوي على بيانات صالحة.',
+            'error'
+          );
+
+          return;
         }
 
-        function handleCalculateClick() {
-            const isActivated = localStorage.getItem('isActivated') === 'true';
-            let usageCount = parseInt(localStorage.getItem('freeUsageCount') || '0');
 
-            if (!isActivated) {
-                if (usageCount >= MAX_FREE_USAGE) {
-                    document.getElementById('activation-modal').classList.remove('hidden');
-                    return;
-                }
-                usageCount++;
-                localStorage.setItem('freeUsageCount', usageCount.toString());
-                checkStatus();
+        csvRows =
+          results.data;
+
+
+        calculateCSVRows();
+
+
+        /*
+          نستهلك تجربة واحدة بعد نجاح التحليل
+          وليس بمجرد اختيار الملف.
+        */
+
+        if(!isActivated()){
+          consumeTrial();
+        }
+
+
+        renderCSVTable();
+
+        renderCSVSummary();
+
+        toast(
+          'تم تحليل الملف بنجاح ✓'
+        );
+
+      },
+
+      error:function(error){
+
+        toast(
+          'تعذر قراءة الملف: ' +
+          error.message,
+          'error'
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+function calculateCSVRows(){
+
+  csvResults =
+    csvRows.map(function(row,index){
+
+      const name =
+        rowText(
+          row,
+          [
+            'product',
+            'name',
+            'product name',
+            'المنتج',
+            'اسم المنتج',
+            'اسم'
+          ],
+          `منتج ${index + 1}`
+        );
+
+
+      const cost =
+        rowNumber(
+          row,
+          [
+            'cost',
+            'product cost',
+            'تكلفة',
+            'تكلفة المنتج',
+            'التكلفة'
+          ]
+        );
+
+
+      const sale =
+        rowNumber(
+          row,
+          [
+            'price',
+            'sale',
+            'selling price',
+            'سعر البيع',
+            'السعر'
+          ]
+        );
+
+
+      const shipping =
+        rowNumber(
+          row,
+          [
+            'shipping',
+            'ship',
+            'شحن',
+            'الشحن'
+          ]
+        );
+
+
+      const packaging =
+        rowNumber(
+          row,
+          [
+            'packaging',
+            'package',
+            'pack',
+            'تغليف',
+            'التغليف'
+          ]
+        );
+
+
+      const ads =
+        rowNumber(
+          row,
+          [
+            'ads',
+            'ad cost',
+            'advertising',
+            'إعلان',
+            'الإعلان'
+          ]
+        );
+
+
+      const discount =
+        rowNumber(
+          row,
+          [
+            'discount',
+            'خصم',
+            'الخصم'
+          ]
+        );
+
+
+      const feeValue =
+        rowNumber(
+          row,
+          [
+            'fee',
+            'commission',
+            'عمولة',
+            'العمولة'
+          ]
+        );
+
+
+      const feeMode =
+        el('csvFeeMode')
+          ? el('csvFeeMode').value
+          : 'percent';
+
+
+      const netSale =
+        sale *
+        (
+          1 -
+          Math.min(
+            100,
+            Math.max(
+              0,
+              discount
+            )
+          ) / 100
+        );
+
+
+      const fee =
+        feeMode === 'fixed'
+          ? feeValue
+          : netSale * feeValue / 100;
+
+
+      const totalCost =
+        cost +
+        shipping +
+        packaging +
+        ads +
+        fee;
+
+
+      const profit =
+        netSale -
+        totalCost;
+
+
+      const margin =
+        netSale > 0
+          ? profit /
+            netSale *
+            100
+          : 0;
+
+
+      let status =
+        'zero';
+
+
+      if(profit > 0){
+        status = 'profit';
+      }else if(profit < 0){
+        status = 'loss';
+      }
+
+
+      return {
+
+        name,
+        cost,
+        sale,
+        shipping,
+        packaging,
+        ads,
+        discount,
+        fee,
+        netSale,
+        totalCost,
+        profit,
+        margin,
+        status
+
+      };
+
+    });
+
+}
+
+
+function renderCSVSummary(){
+
+  const box =
+    el('csvSummary');
+
+
+  if(!csvResults.length){
+
+    box.innerHTML =
+      '';
+
+    return;
+  }
+
+
+  const totalSales =
+    csvResults.reduce(
+      (sum,row)=>
+        sum + row.netSale,
+      0
+    );
+
+
+  const totalCost =
+    csvResults.reduce(
+      (sum,row)=>
+        sum + row.totalCost,
+      0
+    );
+
+
+  const totalProfit =
+    csvResults.reduce(
+      (sum,row)=>
+        sum + row.profit,
+      0
+    );
+
+
+  const profitable =
+    csvResults.filter(
+      row =>
+        row.profit > 0
+    ).length;
+
+
+  const loss =
+    csvResults.filter(
+      row =>
+        row.profit < 0
+    ).length;
+
+
+  const averageMargin =
+    totalSales > 0
+      ? totalProfit /
+        totalSales *
+        100
+      : 0;
+
+
+  box.innerHTML = `
+
+    <div class="grid4">
+
+      <div class="result">
+
+        <div class="metric-label">
+          عدد المنتجات
+        </div>
+
+        <div class="metric">
+          ${number(csvResults.length)}
+        </div>
+
+      </div>
+
+
+      <div class="result">
+
+        <div class="metric-label">
+          إجمالي المبيعات
+        </div>
+
+        <div class="metric">
+          ${money(totalSales)}
+        </div>
+
+      </div>
+
+
+      <div class="result">
+
+        <div class="metric-label">
+          إجمالي الربح
+        </div>
+
+        <div class="metric ${
+          totalProfit >= 0
+            ? 'success'
+            : 'danger'
+        }">
+          ${money(totalProfit)}
+        </div>
+
+      </div>
+
+
+      <div class="result">
+
+        <div class="metric-label">
+          متوسط الهامش
+        </div>
+
+        <div class="metric">
+          ${pct(averageMargin)}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="flex flex-wrap gap-2 mt-4">
+
+      <span class="badge badge-green">
+        رابحة: ${number(profitable)}
+      </span>
+
+      <span class="badge badge-red">
+        خاسرة: ${number(loss)}
+      </span>
+
+      <span class="badge badge-blue">
+        إجمالي التكلفة: ${money(totalCost)}
+      </span>
+
+    </div>
+
+  `;
+
+}
+
+
+function renderCSVTable(){
+
+  const table =
+    el('csvTable');
+
+
+  if(!csvResults.length){
+
+    table.innerHTML = `
+
+      <tbody>
+
+        <tr>
+
+          <td class="p-8 text-center muted">
+            ارفع ملف CSV واضغط تحليل الملف.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    `;
+
+    return;
+  }
+
+
+  const search =
+    textVal('csvSearch')
+      .toLowerCase();
+
+
+  const filter =
+    el('csvFilter')
+      ? el('csvFilter').value
+      : 'all';
+
+
+  const filtered =
+    csvResults.filter(function(row){
+
+      const matchesSearch =
+        !search ||
+        row.name
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesFilter =
+        filter === 'all' ||
+        row.status === filter;
+
+
+      return (
+        matchesSearch &&
+        matchesFilter
+      );
+
+    });
+
+
+  table.innerHTML = `
+
+    <thead>
+
+      <tr>
+
+        <th>#</th>
+        <th>المنتج</th>
+        <th>التكلفة</th>
+        <th>البيع بعد الخصم</th>
+        <th>الشحن</th>
+        <th>الإعلان</th>
+        <th>العمولة</th>
+        <th>إجمالي التكلفة</th>
+        <th>الربح</th>
+        <th>الهامش</th>
+        <th>الحالة</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      ${
+        filtered.length
+        ? filtered.map(function(row,index){
+
+            let statusBadge =
+              '';
+
+            if(row.status === 'profit'){
+
+              statusBadge =
+                `<span class="badge badge-green">رابح</span>`;
+
+            }else if(row.status === 'loss'){
+
+              statusBadge =
+                `<span class="badge badge-red">خاسر</span>`;
+
+            }else{
+
+              statusBadge =
+                `<span class="badge badge-yellow">تعادل</span>`;
+
             }
 
-            executeCalculation();
-        }
 
-        async function verifyCodeWithSupabase() {
-            const inputCode = document.getElementById('activation-code-input').value.trim().toUpperCase();
-            if (!inputCode) return alert('يرجى كتابة كود التفعيل أولاً.');
+            return `
 
-            const { data, error } = await supabase
-                .from('activation_codes')
-                .select('*')
-                .eq('code', inputCode)
-                .single();
+              <tr>
 
-            if (error || !data) {
-                alert('كود التفعيل غير صحيح أو غير موجود!');
-            } else if (data.is_used) {
-                alert('هذا الكود مستخدم بالفعل من قبل!');
-            } else {
-                await supabase.from('activation_codes').update({ is_used: true }).eq('id', data.id);
-                localStorage.setItem('isActivated', 'true');
-                alert('تم التفعيل بنجاح! مبروك 🎉');
-                document.getElementById('activation-modal').classList.add('hidden');
-                checkStatus();
-            }
-        }
+                <td>
+                  ${index + 1}
+                </td>
 
-        function showView(view) {
-            document.getElementById('view-dashboard').classList.add('hidden');
-            document.getElementById('view-calc').classList.add('hidden');
-            document.getElementById('view-bulk').classList.add('hidden');
-            document.getElementById(`view-${view}`).classList.remove('hidden');
-        }
+                <td class="font-bold">
+                  ${escapeHtml(row.name)}
+                </td>
 
-        function openCalc(calcId) {
-            const grid = document.getElementById('inputs-grid');
-            document.getElementById('calc-title').innerText = 'حاسبة المنتجات والربحية';
-            document.getElementById('calc-desc').innerText = 'أدخل تفاصيل التكلفة للحصول على التحليل المالي السريع.';
-            grid.innerHTML = `
-                <div class="space-y-1"><label class="text-xs text-slate-300">التكلفة الإجمالية (جنيه)</label><input type="number" id="in1" placeholder="100" class="w-full input-box px-3 py-2 rounded-xl text-sm"></div>
-                <div class="space-y-1"><label class="text-xs text-slate-300">سعر البيع المستهدف (جنيه)</label><input type="number" id="in2" placeholder="180" class="w-full input-box px-3 py-2 rounded-xl text-sm"></div>
+                <td>
+                  ${money(row.cost)}
+                </td>
+
+                <td>
+                  ${money(row.netSale)}
+                </td>
+
+                <td>
+                  ${money(row.shipping)}
+                </td>
+
+                <td>
+                  ${money(row.ads)}
+                </td>
+
+                <td>
+                  ${money(row.fee)}
+                </td>
+
+                <td>
+                  ${money(row.totalCost)}
+                </td>
+
+                <td class="${
+                  row.profit >= 0
+                    ? 'success'
+                    : 'danger'
+                } font-bold">
+                  ${money(row.profit)}
+                </td>
+
+                <td>
+                  ${pct(row.margin)}
+                </td>
+
+                <td>
+                  ${statusBadge}
+                </td>
+
+              </tr>
+
             `;
-            document.getElementById('calc-result').classList.add('hidden');
-            showView('calc');
-        }
 
-        function executeCalculation() {
-            const v1 = parseFloat(document.getElementById('in1')?.value || 0);
-            const v2 = parseFloat(document.getElementById('in2')?.value || 0);
-            const profit = v2 - v1;
-            const margin = v2 > 0 ? ((profit / v2) * 100).toFixed(1) : 0;
+          }).join('')
+        : `
+          <tr>
 
-            document.getElementById('result-output').innerHTML = `
-                صافي الربح: <span class="text-emerald-400">${profit} ج.م</span> | هامش الربح: <span class="text-emerald-400">${margin}%</span>
-            `;
-            document.getElementById('calc-result').classList.remove('hidden');
-        }
+            <td colspan="11"
+                class="text-center p-8 muted">
+              مفيش منتجات مطابقة للبحث أو الفلتر.
+            </td>
 
-        function handleCSVUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+          </tr>
+        `
+      }
 
-            Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const rows = results.data;
-                    const tbody = document.getElementById('csv-table-body');
-                    tbody.innerHTML = '';
+    </tbody>
 
-                    rows.forEach(row => {
-                        const cost = parseFloat(row.Cost || row.cost || 0);
-                        const price = parseFloat(row.Price || row.price || 0);
-                        const profit = price - cost;
-                        const margin = price > 0 ? ((profit / price) * 100).toFixed(1) : 0;
+  `;
 
-                        tbody.innerHTML += `
-                            <tr class="border-b border-slate-800/50">
-                                <td class="py-2 px-3 font-bold text-white">${row.Name || row.name || 'منتج'}</td>
-                                <td class="py-2 px-3 text-slate-400">${cost}</td>
-                                <td class="py-2 px-3 text-slate-300">${price}</td>
-                                <td class="py-2 px-3 font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-red-400'}">${profit}</td>
-                                <td class="py-2 px-3 text-slate-400">${margin}%</td>
-                            </tr>
-                        `;
-                    });
-                    document.getElementById('csv-results').classList.remove('hidden');
-                }
-            });
-        }
+}
 
-        checkStatus();
-    </script>
+
+/* =========================================================
+   CSV TEMPLATE DOWNLOAD
+========================================================= */
+
+function downloadCSVTemplate(){
+
+  const content =
+`المنتج,التكلفة,سعر البيع,الشحن,التغليف,الإعلان,الخصم,العمولة
+تيشيرت,100,250,40,5,20,10,5
+حذاء,300,600,50,10,30,0,5
+عطر,150,350,40,5,25,15,5`;
+
+  const blob =
+    new Blob(
+      [
+        '\uFEFF' +
+        content
+      ],
+      {
+        type:'text/csv;charset=utf-8;'
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement('a');
+
+  a.href = url;
+
+  a.download =
+    'tas3eer-pro-template.csv';
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   EXPORT CSV RESULTS
+========================================================= */
+
+function exportCSVResults(){
+
+  if(!csvResults.length){
+
+    toast(
+      'حلل ملف CSV الأول.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const rows =
+    csvResults.map(function(row){
+
+      return {
+
+        'المنتج':row.name,
+
+        'التكلفة':
+          row.cost,
+
+        'سعر البيع بعد الخصم':
+          row.netSale,
+
+        'الشحن':
+          row.shipping,
+
+        'التغليف':
+          row.packaging,
+
+        'الإعلان':
+          row.ads,
+
+        'العمولة':
+          row.fee,
+
+        'إجمالي التكلفة':
+          row.totalCost,
+
+        'الربح':
+          row.profit,
+
+        'الهامش':
+          row.margin,
+
+        'الحالة':
+          row.status === 'profit'
+            ? 'رابح'
+            : row.status === 'loss'
+              ? 'خاسر'
+              : 'تعادل'
+
+      };
+
+    });
+
+
+  const csv =
+    Papa.unparse(
+      rows
+    );
+
+
+  const blob =
+    new Blob(
+      [
+        '\uFEFF' +
+        csv
+      ],
+      {
+        type:'text/csv;charset=utf-8;'
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement('a');
+
+  a.href = url;
+
+  a.download =
+    'tas3eer-pro-results.csv';
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  toast(
+    'تم تصدير النتائج ✓'
+  );
+
+}
+
+
+/* =========================================================
+   HOME CARDS
+========================================================= */
+
+function renderHome(){
+
+  const box =
+    el('homeCards');
+
+
+  box.innerHTML =
+    CALCS.map(function(calc){
+
+      return `
+
+        <button
+          onclick="openCalc('${calc.id}')"
+          class="tool-card"
+        >
+
+          <div class="tool-icon">
+            ${calc.icon}
+          </div>
+
+          <div class="font-black text-sm">
+            ${escapeHtml(calc.title)}
+          </div>
+
+          <div class="muted text-xs mt-2 leading-6">
+            ${escapeHtml(calc.desc)}
+          </div>
+
+          <div class="mt-4 text-emerald-400 text-xs font-bold">
+            افتح الأداة ←
+          </div>
+
+        </button>
+
+      `;
+
+    }).join('');
+
+}
+
+
+/* =========================================================
+   HOME STATS
+========================================================= */
+
+function updateHomeStats(){
+
+  const history =
+    getHistory();
+
+
+  if(el('historyCountHome')){
+
+    el('historyCountHome').textContent =
+      number(history.length);
+
+  }
+
+
+  if(el('statusHome')){
+
+    el('statusHome').textContent =
+      isActivated()
+        ? 'Pro مفعلة'
+        : 'تجربة';
+
+    el('statusHome').className =
+      'metric mt-1 text-base ' +
+      (
+        isActivated()
+          ? 'success'
+          : 'warning'
+      );
+
+  }
+
+
+  if(el('lastTypeHome')){
+
+    if(history.length){
+
+      el('lastTypeHome').textContent =
+        history[0].title || '—';
+
+    }else{
+
+      el('lastTypeHome').textContent =
+        '—';
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+========================================================= */
+
+document.addEventListener(
+  'keydown',
+  function(event){
+
+    if(
+      event.key === 'Escape'
+    ){
+
+      closeActivation();
+
+      closeConfirm();
+
+    }
+
+
+    if(
+      event.key === 'Enter' &&
+      !el('activationModal').classList.contains('hidden')
+    ){
+
+      activate();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+getDeviceId();
+
+renderHome();
+
+updateBadge();
+
+renderHistory();
+
+updateHomeStats();
+
+</script>
+
 </body>
 </html>
