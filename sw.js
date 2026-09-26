@@ -1,9 +1,9 @@
-const CACHE_NAME = "tas3eer-pro-v1";
+const CACHE_NAME = "tas3eer-pro-v2";
 
 const FILES_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/manifest.webmanifest"
+  "./",
+  "./index.html",
+  "./manifest.webmanifest"
 ];
 
 self.addEventListener("install", (event) => {
