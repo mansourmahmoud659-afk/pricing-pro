@@ -148,7 +148,7 @@ const SUPABASE_URL =
 "https://wcmiyrroskstgzwbvsor.supabase.co";
 
 const SUPABASE_KEY =
-"Sb_publishable_Hia5ResownbSTejq-DcWkA_HbZTcsZl";
+"sb_publishable_Hia5ResownbSTejq-DcWkA_HbZTcsZl";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -177,9 +177,6 @@ async function generateCode() {
         input.value.trim().toUpperCase();
 
 
-    // لو المستخدم سايب الخانة فاضية
-    // يتم إنشاء كود تلقائي
-
     if (!code) {
 
         code =
@@ -207,13 +204,9 @@ async function generateCode() {
             .from("activation_codes")
 
             .insert({
-
                 code: code,
-
                 is_used: false
-
             })
-
             .select();
 
 
@@ -232,7 +225,6 @@ async function generateCode() {
                 </div>`;
 
             return;
-
         }
 
 
@@ -273,7 +265,6 @@ async function generateCode() {
 
 
         input.value = "";
-
 
         loadCodes();
 
@@ -383,7 +374,6 @@ async function loadCodes() {
 
 
         data.forEach(item => {
-
 
             const status =
 
@@ -521,7 +511,6 @@ async function deleteCode(id) {
 
 
     alert("✅ تم حذف الكود");
-
 
     loadCodes();
 
