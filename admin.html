@@ -72,27 +72,46 @@
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        async function generateCode() {
-            const clientName = document.getElementById('clientName').value.trim() || 'عميل جديد';
-            let code = document.getElementById('customCode').value.trim().toUpperCase();
-            
-            if (!code) {
-                code = 'PRO-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-            }
+    async function generateCode() {
+    try {
+        const clientName =
+            document.getElementById('clientName').value.trim() || 'عميل جديد';
 
-            const { data, error } = await supabase
-                .from('activation_codes')
-                .insert([{ code: code, client_name: clientName }]);
+        let code =
+            document.getElementById('customCode').value.trim().toUpperCase();
 
-            if (error) {
-                alert('حدث خطأ أو الكود موجود مسبقاً: ' + error.message);
-            } else {
-                alert('تم إنشاء الكود بنجاح: ' + code);
-                document.getElementById('clientName').value = '';
-                document.getElementById('customCode').value = '';
-                loadCodes();
-            }
+        if (!code) {
+            code = 'PRO-' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
+
+        alert('جاري إنشاء الكود: ' + code);
+
+        const { data, error } = await supabase
+            .from('activation_codes')
+            .insert([
+                {
+                    code: code,
+                    is_used: false
+                }
+            ])
+            .select();
+
+        if (error) {
+            alert('❌ حصل خطأ من Supabase:\n' + error.message);
+            return;
+        }
+
+        alert('✅ تم إنشاء الكود بنجاح:\n\n' + code);
+
+        document.getElementById('clientName').value = '';
+        document.getElementById('customCode').value = '';
+
+        loadCodes();
+
+    } catch (error) {
+        alert('❌ خطأ في الصفحة:\n' + error.message);
+    }
+}        
 
         async function loadCodes() {
             const tbody = document.getElementById('codesTable');
